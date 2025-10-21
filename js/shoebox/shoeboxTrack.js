@@ -21,7 +21,8 @@ class ShoeboxTrack extends TrackBase {
         visibilityWindow: 10000,
         supportHiDPI: false,
         startSize: 4,         // Footprint size for the first column of data (first row in track)
-        stepSize: 2        // Stepsize for each row in bp for footprint radius
+        stepSize: 2,        // Stepsize for each row in bp for footprint radius
+        trackTitle: "Footprint size"
     }
 
     constructor(config, browser) {
@@ -70,7 +71,7 @@ class ShoeboxTrack extends TrackBase {
         // Color settings
         const min = this.dataRange.min
         const max = this.dataRange.max
-        this.colorScale = new ShoeboxColorScale({min, max, color: this.color})
+        this.colorScale = new ShoeboxColorScale({ min, max, color: this.color })
 
         // This shouldn't be neccessary
         if (!this.scale) this.scale = 1.0
@@ -115,7 +116,7 @@ class ShoeboxTrack extends TrackBase {
 
                     const tracks = []
                     if (this.trackView.track.selected) {
-                        tracks.push(...(this.trackView.browser.getSelectedTrackViews().map(({track}) => track)))
+                        tracks.push(...(this.trackView.browser.getSelectedTrackViews().map(({ track }) => track)))
                     } else {
                         tracks.push(this)
                     }
@@ -132,16 +133,16 @@ class ShoeboxTrack extends TrackBase {
             }
 
             const config =
-                {
-                    label: 'Row Height',
-                    value: this.rowHeight,
-                    callback
-                }
+            {
+                label: 'Row Height',
+                value: this.rowHeight,
+                callback
+            }
 
             this.browser.inputDialog.present(config, e)
         }
 
-        menuItems.push({element, dialog: dialogHandler})
+        menuItems.push({ element, dialog: dialogHandler })
 
         menuItems.push('<hr/>')
 
@@ -159,12 +160,12 @@ class ShoeboxTrack extends TrackBase {
             this.browser.dataRangeDialog.present(e)
         }
 
-        menuItems.push({element, dialog: dataRangeHandler})
+        menuItems.push({ element, dialog: dataRangeHandler })
 
         return menuItems
     }
 
-    setDataRange({min, max}) {
+    setDataRange({ min, max }) {
         this.dataRange.min = min
         this.dataRange.max = max
         this.colorScale.setMinMax(min, max)
@@ -173,14 +174,14 @@ class ShoeboxTrack extends TrackBase {
 
     async getFeatures(chr, start, end, bpPerPixel) {
         const visibilityWindow = this.visibilityWindow
-        const features = await this.featureSource.getFeatures({chr, start, end, bpPerPixel, visibilityWindow})
+        const features = await this.featureSource.getFeatures({ chr, start, end, bpPerPixel, visibilityWindow })
 
         return features
     }
 
-    draw({context, pixelTop, pixelWidth, pixelHeight, features, bpPerPixel, bpStart}) {
+    draw({ context, pixelTop, pixelWidth, pixelHeight, features, bpPerPixel, bpStart }) {
 
-        IGVGraphics.fillRect(context, 0, pixelTop, pixelWidth, pixelHeight, {'fillStyle': "rgb(255, 255, 255)"})
+        IGVGraphics.fillRect(context, 0, pixelTop, pixelWidth, pixelHeight, { 'fillStyle': "rgb(255, 255, 255)" })
 
         if (features && features.length > 0) {
 
@@ -245,14 +246,14 @@ class ShoeboxTrack extends TrackBase {
         const tickStep = 50
         for (let p = tickStep; p <= max; p += tickStep) {
             const yp = Math.max(10, pixelHeight - Math.round((p - min) / yScale))
-            IGVGraphics.strokeLine(ctx, 35, yp , 40, yp , font)
-            if(p > min ) {
+            IGVGraphics.strokeLine(ctx, 35, yp, 40, yp, font)
+            if (p > min) {
                 IGVGraphics.fillText(ctx, prettyPrint(p), 30, yp + 4, font) // Offset numbers down by 2 pixels;
             }
         }
         font['textAlign'] = 'center'
         font['font'] = 'normal 10px Arial'
-            IGVGraphics.fillText(ctx, "Footprint size (bp)", 10, pixelHeight / 2, font, {rotate: {angle: -90}})
+        IGVGraphics.fillText(ctx, this.trackTitle + " (bp)", 10, pixelHeight / 2, font, { rotate: { angle: -90 } })
     }
 
     /**

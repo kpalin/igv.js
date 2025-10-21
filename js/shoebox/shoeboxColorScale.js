@@ -1,6 +1,6 @@
-import {IGVMath} from "../../node_modules/igv-utils/src/index.js"
+import { IGVMath } from "../../node_modules/igv-utils/src/index.js"
 
-const defaultColorScaleConfig = {min: 0, max: 3000, color: "rgb(0,0,255)"}
+const defaultColorScaleConfig = { min: 0, max: 3000, color: "rgb(0,0,255)" }
 
 class ShoeboxColorScale {
 
@@ -11,8 +11,8 @@ class ShoeboxColorScale {
         this.min = scale.min || 0
         this.cache = []
         this.nbins = 1000
-        this.binsize = (this.max - this.min) / this.nbins
         this.updateColor(scale.color || "rgb(0,0,255)")
+        this.binsize = (this.max - this.min) / this.nbins
         this.br = 255
         this.bg = 255
         this.bb = 255
@@ -20,13 +20,22 @@ class ShoeboxColorScale {
     }
 
     updateColor(color) {
-        const comps = color.substring(4).replace(")", "").split(",")
-        if (comps.length === 3) {
-            this.r = Number.parseInt(comps[0].trim())
-            this.g = Number.parseInt(comps[1].trim())
-            this.b = Number.parseInt(comps[2].trim())
+        if (Array.isArray(color)) {
+            this.cache = color
+            this.nbins = this.cache.length
+            this.binsize = (this.max - this.min) / this.nbins
+            this.color = "colormap"
+        } else {
+            this.color = color
+            const comps = color.substring(4).replace(")", "").split(",")
+            if (comps.length === 3) {
+                this.r = Number.parseInt(comps[0].trim())
+                this.g = Number.parseInt(comps[1].trim())
+                this.b = Number.parseInt(comps[2].trim())
+            }
+            this.cache = []
+
         }
-        this.cache = []
     }
 
     setMinMax(min, max) {
@@ -37,16 +46,24 @@ class ShoeboxColorScale {
     }
 
     getColor(value) {
-         if (value <= this.min) return "white"
-        else if (value >= this.max) return `rgb(${this.r},${this.g},${this.b})`
+        let bin
+        if (this.color == "colormap") {
+            if (value <= this.min) { bin = 0 }
+            else if (value >= this.max) { bin = this.nbins - 1 }
+            else { bin = Math.floor((Math.min(this.max, value) - this.min) / this.binsize) }
+        } else {
+            if (value <= this.min) return "white"
+            else if (value >= this.max) return `rgb(${this.r},${this.g},${this.b})`
 
-        const bin = Math.floor((Math.min(this.max, value) - this.min) / this.binsize)
+            bin = Math.floor((Math.min(this.max, value) - this.min) / this.binsize)
 
-        if (undefined === this.cache[bin]) {
-            const alpha = (value - this.min) / (this.max - this.min)
-            const beta = 1 - alpha
-            this.cache[bin] = //`rgba(${this.r},${this.g},${this.b}, ${alpha})`
-                `rgb(${ Math.floor(alpha*this.r + beta*this.br)},${Math.floor(alpha*this.g + beta*this.bg)},${Math.floor(alpha*this.b + beta*this.bb)})`
+            if (undefined === this.cache[bin]) {
+                const alpha = (value - this.min) / (this.max - this.min)
+                const beta = 1 - alpha
+                this.cache[bin] = //`rgba(${this.r},${this.g},${this.b}, ${alpha})`
+                    `rgb(${Math.floor(alpha * this.r + beta * this.br)},${Math.floor(alpha * this.g + beta * this.bg)},${Math.floor(alpha * this.b + beta * this.bb)})`
+            }
+
         }
         return this.cache[bin]
     }
