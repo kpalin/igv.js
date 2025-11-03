@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>IGV.js - 250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        #igvDiv {
+            padding: 10px;
+            border: 1px solid lightgray;
+            background-color: white;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .info {
+            background-color: #e7f3ff;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .file-count {
+            text-align: center;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            /* Vertically center the items */
+            gap: 2px;
+            /* Space between the divs */
+        }
+
+        .left-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rotated {
+            /*width: 600px;*/
+            /* This becomes the height after rotation */
+            /*height: 0px;*/
+            /* This becomes the width after rotation */
+            transform: rotate(-90deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .colorbar-container {
+            display: inline-block;
+        }
+
+        #colorbar {
+            border: 1px solid #333;
+            display: block;
+        }
+
+        .labels {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            width: 256px;
+            margin-top: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+
+        .labels span:nth-child(1) {
+            text-align: left;
+        }
+
+        .labels span:nth-child(2) {
+            text-align: center;
+        }
+
+        .labels span:nth-child(3) {
+            text-align: right;
+        }
+    </style>
+
+    <!-- <script src="./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"></script>  -->
+    <script src="https://cdn.jsdelivr.net/npm/openseadragon@5.0/build/openseadragon/openseadragon.min.js"></script>
+    script type="module" src="./js/szi-tile-source-v0.6.1.js"></script>
+    <script type="module">
+        import { enableSziTileSource } from './js/szi-tile-source-v0.6.1.js';
+        enableSziTileSource(OpenSeadragon);
+        console.log("SziTileSource module loaded and enabled.");
+    </script>
+</head>
+
+<body>
+    <h1>Genomic Data Viewer - 250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx</h1>
+
+    <div class="info">
+        <h3>Dataset Information</h3>
+        <p><strong>Bucket:</strong> <a
+                href=https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx>250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx</a>
+        </p>
+        <p><strong>Genome:</strong> hs1 (T2T-CHM13v2.0)</p>
+
+    </div>
+
+    <!-- <button id="imageMove" onclick="fitRegion()">go somewhere</button>-->
+    <div class="colorbar-container"> 
+        <canvas id="colorbar" width="256" height="30"></canvas>
+        <div class="labels">
+            <span>-1</span>
+            <span>0</span>
+            <span>1</span>
+        </div>
+    </div>
+    <div id="click-position">click position</div>
+
+
+    <div class="container">
+        <div class="left-section">
+            <div id="openseadragon1" style="width: 100%; height: 600px;"></div>
+            <div id="X_coord">X Coordinate</div>
+        </div>
+        <div id="Y_coord" class="rotated">Y Coordinate</div>
+    </div>
+
+    <div id="igvDiv" style="width: 95%"></div>
+
+
+    <div class="info">
+
+        <strong>QC files:</strong>
+        <a
+            href=https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/qc/samtools/GP5d-psfHia5-1kx-BIDGEN-SZ-2399_raw_stats.html>https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/qc/samtools/GP5d-psfHia5-1kx-BIDGEN-SZ-2399_raw_stats.html</a><br>
+        <strong>Files loaded:</strong>
+        ['https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.assoc.fdr.bw',
+        'https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.all.bw',
+        'https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h1.bw',
+        'https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h2.bw',
+        'https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.all.bw',
+        'https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h1.bw',
+        'https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h2.bw',
+        'https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/phase/longshot.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.raw.phased.cram']
+
+        <h3>Navigation Tips</h3>
+        <ul>
+            <li>Use the search box to navigate to specific genomic regions (e.g., "chr11:119094729-119094804")</li>
+            <li>Click and drag to select regions</li>
+            <li>Use mouse wheel to zoom in/out</li>
+            <li>Right-click on tracks for additional options</li>
+            <li>Base modification tracks show methylation data in different color modes</li>
+        </ul>
+    </div>
+
+
+    <script type="text/javascript">/* 
+* This software was developed at the National Institute of Standards and
+* Technology by employees of the Federal Government in the course of
+* their official duties. Pursuant to title 17 Section 105 of the United
+* States Code this software is not subject to copyright protection and is
+* in the public domain. This software is an experimental system. NIST assumes
+* no responsibility whatsoever for its use by other parties, and makes no
+* guarantees, expressed or implied, about its quality, reliability, or
+* any other characteristic. We would appreciate acknowledgement if the
+* software is used.
+*/
+
+
+        (function ($) {
+
+            if (!$.version || $.version.major < 1) {
+                throw new Error('OpenSeadragonPixelColor requires OpenSeadragon version 1.0.0+');
+            }
+
+            $.Viewer.prototype.getPixelColor = function (pixel) {
+                var drawer = this.drawer;
+                //if (!drawer.useCanvas) {
+                //    throw new Error("Canvas rendering required to get pixel color.");
+                //}
+                return drawer.canvas.getContext("2d").getImageData(pixel.x, pixel.y, 1, 1).data;
+            };
+
+        }(OpenSeadragon));</script>
+
+    <script type="text/javascript" src="./js/openseadragon-filtering.js"></script>
+
+    <!-- COLORMAP: function (cmap, ctr) {
+                    var resampledCmap = cmap.slice(0);
+                    var diff = 255 - ctr;
+                    for (var i = 0; i < 256; i++) {
+                        var position = 0;
+                        if (i > ctr) {
+                            position = Math.min((i - ctr) / diff * 128 + 128, 255) | 0;
+                        } else {
+                            position = Math.max(0, i / (ctr / 128)) | 0;
+                        }
+                        resampledCmap[i] = cmap[position];
+                    }
+                    return function (context, callback) {
+                        var imgData = context.getImageData(
+                            0, 0, context.canvas.width, context.canvas.height);
+                        var pxl = imgData.data;
+                        for (var i = 0; i < pxl.length; i += 4) {
+                            var v = (pxl[i] + pxl[i + 1] + pxl[i + 2]) / 3 | 0;
+                            var c = resampledCmap[v];
+                            //console.log(resampledCmap)
+                            pxl[i] = c[0];
+                            pxl[i + 1] = c[1];
+                            pxl[i + 2] = c[2];
+                        }
+                        context.putImageData(imgData, 0, 0);
+                        callback();
+                    };
+                }
+            };
+
+        }());
+    </script> -->
+
+    <script type="module">
+        let opts = {
+            id: "openseadragon1",
+            //prefixUrl: "./node_modules/openseadragon/build/openseadragon/images/",
+            prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@5.0/build/openseadragon/images/",
+            tileSources: "./tmp_corr.dzi.dzi",
+            maxZoomPixelRatio: 1000.,
+            minZoomImageRatio: 1.,
+            imageSmoothingEnabled: false,
+            showNavigator: true,
+            panHorizontal: false,
+            panVertical: false,
+            showNavigationControl: false,
+
+            gestureSettingsMouse: {
+                clickToZoom: false,
+                dragToPan: false,
+                dblClickToZoom: false,
+                pinchToZoom: false,
+                scrollToZoom: false,
+                zoomToRefPoint: true
+            }
+        };
+        opts = {
+            id: "openseadragon1",
+            prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@5.0/build/openseadragon/images/",
+            tileSources: "./tmp_corr.dzi.dzi",
+            maxZoomPixelRatio: 1000.,
+            minZoomImageRatio: 1.,
+            imageSmoothingEnabled: false,
+            showNavigator: false,
+        }
+
+
+        opts = {
+            id: "openseadragon1",
+            prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@5.0/build/openseadragon/images/",
+            tileSources: "./tmp_corr_gray.dzi",
+            maxZoomPixelRatio: 1000.,
+            minZoomImageRatio: 1.,
+            imageSmoothingEnabled: false,
+            showNavigator: false,
+            drawer: 'canvas',
+            gestureSettingsMouse: {
+                clickToZoom: false
+            }
+        }
+
+        const seismic_cmap = [[0, 0, 76], [0, 0, 79], [0, 0, 82], [0, 0, 85], [0, 0, 88], [0, 0, 90], [0, 0, 93], [0, 0, 96], [0, 0, 99], [0, 0, 102], [0, 0, 104], [0, 0, 107], [0, 0, 110], [0, 0, 113], [0, 0, 116], [0, 0, 118], [0, 0, 121], [0, 0, 124], [0, 0, 127], [0, 0, 130], [0, 0, 132], [0, 0, 135], [0, 0, 138], [0, 0, 141], [0, 0, 144], [0, 0, 146], [0, 0, 149], [0, 0, 152], [0, 0, 155], [0, 0, 158], [0, 0, 160], [0, 0, 163], [0, 0, 166], [0, 0, 169], [0, 0, 172], [0, 0, 174], [0, 0, 177], [0, 0, 180], [0, 0, 183], [0, 0, 186], [0, 0, 188], [0, 0, 191], [0, 0, 194], [0, 0, 197], [0, 0, 200], [0, 0, 202], [0, 0, 205], [0, 0, 208], [0, 0, 211], [0, 0, 214], [0, 0, 216], [0, 0, 219], [0, 0, 222], [0, 0, 225], [0, 0, 228], [0, 0, 230], [0, 0, 233], [0, 0, 236], [0, 0, 239], [0, 0, 242], [0, 0, 244], [0, 0, 247], [0, 0, 250], [0, 0, 253], [1, 1, 255], [5, 5, 255], [9, 9, 255], [13, 13, 255], [17, 17, 255], [21, 21, 255], [25, 25, 255], [29, 29, 255], [33, 33, 255], [37, 37, 255], [41, 41, 255], [45, 45, 255], [49, 49, 255], [53, 53, 255], [57, 57, 255], [61, 61, 255], [65, 65, 255], [69, 69, 255], [73, 73, 255], [77, 77, 255], [81, 81, 255], [85, 85, 255], [89, 89, 255], [93, 93, 255], [97, 97, 255], [101, 101, 255], [105, 105, 255], [109, 109, 255], [113, 113, 255], [117, 117, 255], [121, 121, 255], [125, 125, 255], [129, 129, 255], [133, 133, 255], [137, 137, 255], [141, 141, 255], [145, 145, 255], [149, 149, 255], [153, 153, 255], [157, 157, 255], [161, 161, 255], [165, 165, 255], [169, 169, 255], [173, 173, 255], [177, 177, 255], [181, 181, 255], [185, 185, 255], [189, 189, 255], [193, 193, 255], [197, 197, 255], [201, 201, 255], [205, 205, 255], [209, 209, 255], [213, 213, 255], [217, 217, 255], [221, 221, 255], [225, 225, 255], [229, 229, 255], [233, 233, 255], [237, 237, 255], [241, 241, 255], [245, 245, 255], [249, 249, 255], [253, 253, 255], [255, 253, 253], [255, 249, 249], [255, 245, 245], [255, 241, 241], [255, 237, 237], [255, 233, 233], [255, 229, 229], [255, 225, 225], [255, 221, 221], [255, 217, 217], [255, 213, 213], [255, 209, 209], [255, 205, 205], [255, 201, 201], [255, 197, 197], [255, 193, 193], [255, 189, 189], [255, 185, 185], [255, 181, 181], [255, 177, 177], [255, 173, 173], [255, 169, 169], [255, 165, 165], [255, 161, 161], [255, 157, 157], [255, 153, 153], [255, 149, 149], [255, 145, 145], [255, 141, 141], [255, 137, 137], [255, 133, 133], [255, 129, 129], [255, 125, 125], [255, 121, 121], [255, 117, 117], [255, 113, 113], [255, 109, 109], [255, 105, 105], [255, 101, 101], [255, 97, 97], [255, 93, 93], [255, 89, 89], [255, 85, 85], [255, 81, 81], [255, 77, 77], [255, 73, 73], [255, 69, 69], [255, 65, 65], [255, 61, 61], [255, 57, 57], [255, 53, 53], [255, 49, 49], [255, 45, 45], [255, 41, 41], [255, 37, 37], [255, 33, 33], [255, 29, 29], [255, 25, 25], [255, 21, 21], [255, 17, 17], [255, 13, 13], [255, 9, 9], [255, 5, 5], [255, 1, 1], [254, 0, 0], [252, 0, 0], [250, 0, 0], [248, 0, 0], [246, 0, 0], [244, 0, 0], [242, 0, 0], [240, 0, 0], [238, 0, 0], [236, 0, 0], [234, 0, 0], [232, 0, 0], [230, 0, 0], [227, 0, 0], [226, 0, 0], [224, 0, 0], [222, 0, 0], [220, 0, 0], [218, 0, 0], [216, 0, 0], [214, 0, 0], [211, 0, 0], [210, 0, 0], [208, 0, 0], [206, 0, 0], [204, 0, 0], [202, 0, 0], [200, 0, 0], [198, 0, 0], [195, 0, 0], [194, 0, 0], [192, 0, 0], [190, 0, 0], [188, 0, 0], [186, 0, 0], [184, 0, 0], [182, 0, 0], [179, 0, 0], [178, 0, 0], [176, 0, 0], [174, 0, 0], [172, 0, 0], [170, 0, 0], [168, 0, 0], [166, 0, 0], [163, 0, 0], [162, 0, 0], [160, 0, 0], [158, 0, 0], [156, 0, 0], [154, 0, 0], [152, 0, 0], [150, 0, 0], [147, 0, 0], [146, 0, 0], [144, 0, 0], [142, 0, 0], [140, 0, 0], [138, 0, 0], [136, 0, 0], [134, 0, 0], [132, 0, 0], [130, 0, 0], [128, 0, 0]]
+        const cmap = seismic_cmap;
+
+        const sziUrl = './shroom4_mA_1kx_gp5d.ps1308022.chrX_9367002-9387992.szi';
+
+        const tileSource = await OpenSeadragon.SziTileSource.createSziTileSource(sziUrl);
+
+        const dziViewer = new OpenSeadragon.Viewer({
+            id: "openseadragon1",
+            prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@5.0/build/openseadragon/images/",
+            maxZoomPixelRatio: 1000.,
+            minZoomImageRatio: 1.,
+            imageSmoothingEnabled: false,
+            showNavigator: false,
+            drawer: 'canvas',
+            gestureSettingsMouse: {
+                clickToZoom: false
+            },
+            tileSources: [tileSource],
+        });
+        //var dziViewer = OpenSeadragon(opts);
+        dziViewer.fig_start_bp = 9367002;
+        dziViewer.fig_chr = "chrX";
+
+        const x_coord = document.getElementById('X_coord');
+        const y_coord = document.getElementById('Y_coord');
+
+
+
+        function nearestColorIndex(color) {
+            let min_i = cmap.length;
+            let min_d = Infinity;
+            for (let i = 0; i < cmap.length; i++) {
+                let c = cmap[i];
+                let d = (color[0] - c[0]) ** 2 + (color[1] - c[1]) ** 2 + (color[2] - c[2]) ** 2;
+                if (d < min_d) {
+                    min_d = d;
+                    min_i = i;
+                }
+            }
+            return min_i;
+        }
+        if (true) {
+            dziViewer.setFilterOptions({
+                filters: {
+                    processors: OpenSeadragon.Filters.COLORMAP(cmap, 127)
+                }
+            });
+
+        }
+
+
+        function fitRegion(xstart, xend, ystart, yend) {
+            // Define a rectangle in image coordinates (x, y, width, height in pixels)
+
+            const w = xend - xstart + 1;
+            const h = yend - ystart + 1;
+            const imageRect = new OpenSeadragon.Rect(xstart, xstart, w, h);
+            console.log("imageRect: ", imageRect);
+
+            // Convert to viewport coordinates
+            var viewportRect = dziViewer.viewport.imageToViewportRectangle(imageRect);
+            console.log("viewportRect: ", viewportRect);
+            // Fit that region into the viewport
+            dziViewer.viewport.fitBounds(viewportRect, true); // true = immediate, false = animated
+        }
+
+        dziViewer.addHandler('canvas-click', function (event) {
+            // The canvas-click event gives us a position in web coordinates.
+            var webPoint = event.position;
+            var color = dziViewer.getPixelColor(webPoint);
+
+            console.log("Pixel color RGBA: ", color);
+            //            var red = color[0];
+            //            var green = color[1];
+            //            var blue = color[2];
+            //            var alpha = color[3];
+
+            console.log(dziViewer.drawer.getType());
+            console.log(dziViewer.drawer);
+
+            // Convert that to viewport coordinates, the lingua franca of OpenSeadragon coordinates.
+            var viewportPoint = dziViewer.viewport.pointFromPixel(webPoint);
+
+            // Convert from viewport coordinates to image coordinates.
+            var imagePoint = dziViewer.viewport.viewportToImageCoordinates(viewportPoint);
+
+            // Show the results.
+            console.log(webPoint.toString(), viewportPoint.toString(), imagePoint.toString());
+            let x_pos_bp = Math.round(imagePoint.x) + dziViewer.fig_start_bp;
+            let y_pos_bp = Math.round(imagePoint.y) + dziViewer.fig_start_bp;
+
+
+            let color_i = nearestColorIndex(color);
+            let rho = color_i / (cmap.length - 1) * 2 - 1.0;
+            document.getElementById('click-position').innerHTML = `idx: ${color_i}  approx rho: ${rho.toFixed(2)} X: ${dziViewer.fig_chr}:${x_pos_bp.toLocaleString()} Y: ${dziViewer.fig_chr}:${y_pos_bp.toLocaleString()}`;
+            //console.log(`Pixel color RGBA: (${red}, ${green}, ${blue}, ${alpha})`);
+        });
+
+        dziViewer.addHandler('animation-finish', function (event) {
+            var bounds = event.eventSource.viewport.getBounds(false);
+            var topLeft = event.eventSource.viewport.viewportToImageCoordinates(bounds.getTopLeft());
+            var bottomRight = event.eventSource.viewport.viewportToImageCoordinates(bounds.getBottomRight());
+            console.log(`Viewport bounds in image coordinates: ${topLeft.x} ${topLeft.y} ${bottomRight.x} ${bottomRight.y}`);
+            console.log(`Viewport bounds in image coordinates: TopLeft ${topLeft.toString()}, BottomRight ${bottomRight.toString()}`);
+
+            let x_start_bp = Math.floor(topLeft.x) + dziViewer.fig_start_bp;
+            let x_end_bp = Math.ceil(bottomRight.x) + dziViewer.fig_start_bp;
+            let y_start_bp = Math.floor(topLeft.y) + dziViewer.fig_start_bp;
+            let y_end_bp = Math.ceil(bottomRight.y) + dziViewer.fig_start_bp;
+
+
+            let x_region_str = `${dziViewer.fig_chr}:${x_start_bp}-${x_end_bp}`;
+            let y_region_str = `${dziViewer.fig_chr}:${y_start_bp}-${y_end_bp}`;
+            console.log(`X region: ${x_region_str} Y region: ${y_region_str}`);
+            x_coord.innerHTML = `X: ${dziViewer.fig_chr}:${x_start_bp.toLocaleString()}-${x_end_bp.toLocaleString()}  (${(x_end_bp - x_start_bp + 1).toLocaleString()} bp)`;
+            y_coord.innerHTML = `Y: ${dziViewer.fig_chr}:${y_start_bp.toLocaleString()}-${y_end_bp.toLocaleString()}  (${(y_end_bp - y_start_bp + 1).toLocaleString()} bp)`;
+
+            // Now, update IGV to reflect this region
+            if (window.igvBrowser) {
+                let locusStr = x_region_str + " " + y_region_str;
+                //let locusStr = "MYC CCAT2"
+                console.log(`Updating IGV locus to ${locusStr}`);
+                window.igvBrowser.search(locusStr).then(() => {
+                    console.log("IGV locus updated");
+                }).catch((error) => {
+                    console.error("Error updating IGV locus:", error);
+                });
+            } else {
+                console.log("IGV browser not yet initialized");
+            }
+        });
+
+
+        // Draw colorbar
+        function drawColorbar(canvas, colormap) {
+            const ctx = canvas.getContext('2d');
+            //console.log(`colormap length  ${colormap.length}`);
+            for (let x = 0; x < canvas.width; x++) {
+                const index = Math.floor((x / canvas.width) * colormap.length);
+                const color = colormap[index];
+
+                ctx.fillStyle = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+                //console.log(`${index} ${color} ctx.fillStyle=${ctx.fillStyle}`);
+                ctx.fillRect(x, 0, 1, canvas.height);
+            }
+        }
+
+        drawColorbar(document.getElementById('colorbar'), cmap);
+        //import igv from "https://cdn.jsdelivr.net/npm/igv@3.3.0/dist/igv.esm.min.js"
+        import igv from "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/web_dev/igv.esm.min.js"
+
+        import { enableSziTileSource } from './js/szi-tile-source-v0.6.1.js';
+        enableSziTileSource(OpenSeadragon);
+        //import igv from "/js/index.js"
+        const options = {
+            "genome": "hs1",
+            "locus": "chrX:49,845,979-50,086,560",
+            "tracks": [
+
+                /*	{
+                  "type": "alignment",
+                  "format": "cram",
+                  "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/phase/longshot.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.raw.phased.cram",
+                  "indexURL": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/phase/longshot.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.raw.phased.cram.crai",
+                  "height": 400,
+                  "name": "longshot.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.raw.phased - Base modifications (mono-color)",
+                  "colorBy": "basemod",
+                  "groupBy": "tag:HP",
+                  "filter": {
+                   "secondary": true
+                  }
+                 },
+
+                {
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/MYC335_mA_1kx_gp5d_h1_corr.bed.gz",
+                    "filename": "MYC335_mA_1kx_gp5d_h1_corr.bed.gz",
+                    "indexURL": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/MYC335_mA_1kx_gp5d_h1_corr.bed.gz.tbi",
+                    "name": "MYC335_mA_1kx_gp5d_h1_corr",
+                    "order": -9,
+                    "format": "bed",
+                    "type": "shoebox",
+                    "trackTitle": "Correlation h1 fwd",
+                    //"color": "rgb(137, 30, 136)",
+                    // Seismic color scale.
+                    "color": ["#00004c", "#00004f", "#000052", "#000055", "#000058", "#00005a", "#00005d", "#000060", "#000063", "#000066", "#000068", "#00006b", "#00006e", "#000071", "#000074", "#000076", "#000079", "#00007c", "#00007f", "#000082", "#000084", "#000087", "#00008a", "#00008d", "#000090", "#000092", "#000095", "#000098", "#00009b", "#00009e", "#0000a0", "#0000a3", "#0000a6", "#0000a9", "#0000ac", "#0000ae", "#0000b1", "#0000b4", "#0000b7", "#0000ba", "#0000bc", "#0000bf", "#0000c2", "#0000c5", "#0000c8", "#0000ca", "#0000cd", "#0000d0", "#0000d3", "#0000d6", "#0000d8", "#0000db", "#0000de", "#0000e1", "#0000e4", "#0000e6", "#0000e9", "#0000ec", "#0000ef", "#0000f2", "#0000f4", "#0000f7", "#0000fa", "#0000fd", "#0101ff", "#0505ff", "#0909ff", "#0d0dff", "#1111ff", "#1515ff", "#1919ff", "#1d1dff", "#2121ff", "#2525ff", "#2929ff", "#2d2dff", "#3131ff", "#3535ff", "#3939ff", "#3d3dff", "#4141ff", "#4545ff", "#4949ff", "#4d4dff", "#5151ff", "#5555ff", "#5959ff", "#5d5dff", "#6161ff", "#6565ff", "#6969ff", "#6d6dff", "#7171ff", "#7575ff", "#7979ff", "#7d7dff", "#8181ff", "#8585ff", "#8989ff", "#8d8dff", "#9191ff", "#9595ff", "#9999ff", "#9d9dff", "#a1a1ff", "#a5a5ff", "#a9a9ff", "#adadff", "#b1b1ff", "#b5b5ff", "#b9b9ff", "#bdbdff", "#c1c1ff", "#c5c5ff", "#c9c9ff", "#cdcdff", "#d1d1ff", "#d5d5ff", "#d9d9ff", "#ddddff", "#e1e1ff", "#e5e5ff", "#e9e9ff", "#ededff", "#f1f1ff", "#f5f5ff", "#f9f9ff", "#fdfdff", "#fffdfd", "#fff9f9", "#fff5f5", "#fff1f1", "#ffeded", "#ffe9e9", "#ffe5e5", "#ffe1e1", "#ffdddd", "#ffd9d9", "#ffd5d5", "#ffd1d1", "#ffcdcd", "#ffc9c9", "#ffc5c5", "#ffc1c1", "#ffbdbd", "#ffb9b9", "#ffb5b5", "#ffb1b1", "#ffadad", "#ffa9a9", "#ffa5a5", "#ffa1a1", "#ff9d9d", "#ff9999", "#ff9595", "#ff9191", "#ff8d8d", "#ff8989", "#ff8585", "#ff8181", "#ff7d7d", "#ff7979", "#ff7575", "#ff7171", "#ff6d6d", "#ff6969", "#ff6565", "#ff6161", "#ff5d5d", "#ff5959", "#ff5555", "#ff5151", "#ff4d4d", "#ff4949", "#ff4545", "#ff4141", "#ff3d3d", "#ff3939", "#ff3535", "#ff3131", "#ff2d2d", "#ff2929", "#ff2525", "#ff2121", "#ff1d1d", "#ff1919", "#ff1515", "#ff1111", "#ff0d0d", "#ff0909", "#ff0505", "#ff0101", "#fe0000", "#fc0000", "#fa0000", "#f80000", "#f60000", "#f40000", "#f20000", "#f00000", "#ee0000", "#ec0000", "#ea0000", "#e80000", "#e60000", "#e30000", "#e20000", "#e00000", "#de0000", "#dc0000", "#da0000", "#d80000", "#d60000", "#d30000", "#d20000", "#d00000", "#ce0000", "#cc0000", "#ca0000", "#c80000", "#c60000", "#c30000", "#c20000", "#c00000", "#be0000", "#bc0000", "#ba0000", "#b80000", "#b60000", "#b30000", "#b20000", "#b00000", "#ae0000", "#ac0000", "#aa0000", "#a80000", "#a60000", "#a30000", "#a20000", "#a00000", "#9e0000", "#9c0000", "#9a0000", "#980000", "#960000", "#930000", "#920000", "#900000", "#8e0000", "#8c0000", "#8a0000", "#880000", "#860000", "#840000", "#820000", "#800000"]
+                    ,
+                    "min": -1.0,
+                    "max": 1.0,
+                    "startSize": 1,
+                    "stepSize": 1
+                    /*
+                "colorScale": {
+                "type": "doubleGradient",
+                "low": -1.0,
+                "mid": 0,
+                "high": 1.0,
+                "lowColor": "rgb(46,56,183)",
+                "midColor": "white",
+                "highColor": "rgb(164,0,30)"
+                },
+            	
+            	
+                "colorScale": {
+                "min": -1,
+                "max": 1,
+                "color": "rgb(137,30,136)"
+                }
+                },*/
+
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "min": 0,
+                    "autoscale":true,
+                    "graphType": "bar",
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.assoc.fdr.bw",
+                    "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.assoc.fdr",
+                    "height": 100
+                },
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "min": 0,
+                    "max": 100,
+                    "graphType": "bar",
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.all.bw",
+                    "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.all",
+                    "height": 100
+                },
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "min": 0,
+                    "max": 100,
+                    "graphType": "bar",
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h1.bw",
+                    "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h1",
+                    "height": 100
+                },
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "min": 0,
+                    "max": 100,
+                    "graphType": "bar",
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h2.bw",
+                    "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h2",
+                    "height": 100
+                },
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "min": 0,
+                    "max": 100,
+                    "graphType": "line",
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.all.bw",
+                    "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.all",
+                    "height": 100
+                },
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "min": 0,
+                    "max": 100,
+                    "graphType": "line",
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h1.bw",
+                    "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h1",
+                    "height": 100
+                },
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "min": 0,
+                    "max": 100,
+                    "graphType": "line",
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h2.bw",
+                    "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h2",
+                    "height": 100
+                },
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "graphType": "dynseq",
+                    "autoscale":true,
+                    "url": " https://a3s.fi/phyloP/phyloP470way_hs1.bw",
+                    "name": "PhyloP, Hillar lab 470 mammals",
+                    "height": 100
+                   
+                }
+            ]
+        }
+
+        var igvDiv = document.getElementById("igvDiv")
+
+        igv.createBrowser(igvDiv, options)
+            .then(function (browser) {
+                console.log("Created IGV browser")
+                console.log("Loaded tracks:", options.tracks.length)
+                //                browser._call_count = 0
+                //
+                //                let debounceTimer;
+                //                browser.on('locuschange', referenceFrameList => {
+                //                    clearTimeout(debounceTimer);
+                //
+                //                    // Only run after 500ms of no locuschange events
+                //                    debounceTimer = setTimeout(() => {
+                //                        dziViewer
+                //                        let loc = referenceFrameList[0]
+                //                        if (loc.chr == "chr8") {
+                //                            let fig_start = 128516935;
+                //
+                //                           fitRegion(loc.start - fig_start, loc.end - fig_start, loc.start - fig_start, loc.end - fig_start)
+                //                        }
+
+                //let loc = referenceFrameList.map(rf => rf.getLocusString()).join('%20')
+                //                        browser._call_count += 1
+
+                //                        console.log(`Locus change #${browser._call_count}: ${loc}`)
+                //                       //window.history.replaceState({}, "IGV Examples - Locus Change", updatedURL)
+                //}, 500);
+                //                })
+                window.igvBrowser = browser
+            })
+            .catch(function (error) {
+                console.error("Error creating IGV browser:", error)
+                igvDiv.innerHTML = "<p style='color: red; text-align: center;'>Error loading IGV browser. Please check the console for details.</p>"
+            })
+
+
+    </script> -->
+</body>
+
+</html>
