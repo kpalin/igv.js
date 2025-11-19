@@ -1,4 +1,10 @@
 
+const h1red = "rgb(255, 41, 135)";
+const h2blue = "rgb(40, 118, 255)";
+
+
+
+
 let opts = {
     id: "openseadragon1",
     //prefixUrl: "./node_modules/openseadragon/build/openseadragon/images/",
@@ -49,7 +55,7 @@ opts = {
 const seismic_cmap = [[0, 0, 76], [0, 0, 79], [0, 0, 82], [0, 0, 85], [0, 0, 88], [0, 0, 90], [0, 0, 93], [0, 0, 96], [0, 0, 99], [0, 0, 102], [0, 0, 104], [0, 0, 107], [0, 0, 110], [0, 0, 113], [0, 0, 116], [0, 0, 118], [0, 0, 121], [0, 0, 124], [0, 0, 127], [0, 0, 130], [0, 0, 132], [0, 0, 135], [0, 0, 138], [0, 0, 141], [0, 0, 144], [0, 0, 146], [0, 0, 149], [0, 0, 152], [0, 0, 155], [0, 0, 158], [0, 0, 160], [0, 0, 163], [0, 0, 166], [0, 0, 169], [0, 0, 172], [0, 0, 174], [0, 0, 177], [0, 0, 180], [0, 0, 183], [0, 0, 186], [0, 0, 188], [0, 0, 191], [0, 0, 194], [0, 0, 197], [0, 0, 200], [0, 0, 202], [0, 0, 205], [0, 0, 208], [0, 0, 211], [0, 0, 214], [0, 0, 216], [0, 0, 219], [0, 0, 222], [0, 0, 225], [0, 0, 228], [0, 0, 230], [0, 0, 233], [0, 0, 236], [0, 0, 239], [0, 0, 242], [0, 0, 244], [0, 0, 247], [0, 0, 250], [0, 0, 253], [1, 1, 255], [5, 5, 255], [9, 9, 255], [13, 13, 255], [17, 17, 255], [21, 21, 255], [25, 25, 255], [29, 29, 255], [33, 33, 255], [37, 37, 255], [41, 41, 255], [45, 45, 255], [49, 49, 255], [53, 53, 255], [57, 57, 255], [61, 61, 255], [65, 65, 255], [69, 69, 255], [73, 73, 255], [77, 77, 255], [81, 81, 255], [85, 85, 255], [89, 89, 255], [93, 93, 255], [97, 97, 255], [101, 101, 255], [105, 105, 255], [109, 109, 255], [113, 113, 255], [117, 117, 255], [121, 121, 255], [125, 125, 255], [129, 129, 255], [133, 133, 255], [137, 137, 255], [141, 141, 255], [145, 145, 255], [149, 149, 255], [153, 153, 255], [157, 157, 255], [161, 161, 255], [165, 165, 255], [169, 169, 255], [173, 173, 255], [177, 177, 255], [181, 181, 255], [185, 185, 255], [189, 189, 255], [193, 193, 255], [197, 197, 255], [201, 201, 255], [205, 205, 255], [209, 209, 255], [213, 213, 255], [217, 217, 255], [221, 221, 255], [225, 225, 255], [229, 229, 255], [233, 233, 255], [237, 237, 255], [241, 241, 255], [245, 245, 255], [249, 249, 255], [253, 253, 255], [255, 253, 253], [255, 249, 249], [255, 245, 245], [255, 241, 241], [255, 237, 237], [255, 233, 233], [255, 229, 229], [255, 225, 225], [255, 221, 221], [255, 217, 217], [255, 213, 213], [255, 209, 209], [255, 205, 205], [255, 201, 201], [255, 197, 197], [255, 193, 193], [255, 189, 189], [255, 185, 185], [255, 181, 181], [255, 177, 177], [255, 173, 173], [255, 169, 169], [255, 165, 165], [255, 161, 161], [255, 157, 157], [255, 153, 153], [255, 149, 149], [255, 145, 145], [255, 141, 141], [255, 137, 137], [255, 133, 133], [255, 129, 129], [255, 125, 125], [255, 121, 121], [255, 117, 117], [255, 113, 113], [255, 109, 109], [255, 105, 105], [255, 101, 101], [255, 97, 97], [255, 93, 93], [255, 89, 89], [255, 85, 85], [255, 81, 81], [255, 77, 77], [255, 73, 73], [255, 69, 69], [255, 65, 65], [255, 61, 61], [255, 57, 57], [255, 53, 53], [255, 49, 49], [255, 45, 45], [255, 41, 41], [255, 37, 37], [255, 33, 33], [255, 29, 29], [255, 25, 25], [255, 21, 21], [255, 17, 17], [255, 13, 13], [255, 9, 9], [255, 5, 5], [255, 1, 1], [254, 0, 0], [252, 0, 0], [250, 0, 0], [248, 0, 0], [246, 0, 0], [244, 0, 0], [242, 0, 0], [240, 0, 0], [238, 0, 0], [236, 0, 0], [234, 0, 0], [232, 0, 0], [230, 0, 0], [227, 0, 0], [226, 0, 0], [224, 0, 0], [222, 0, 0], [220, 0, 0], [218, 0, 0], [216, 0, 0], [214, 0, 0], [211, 0, 0], [210, 0, 0], [208, 0, 0], [206, 0, 0], [204, 0, 0], [202, 0, 0], [200, 0, 0], [198, 0, 0], [195, 0, 0], [194, 0, 0], [192, 0, 0], [190, 0, 0], [188, 0, 0], [186, 0, 0], [184, 0, 0], [182, 0, 0], [179, 0, 0], [178, 0, 0], [176, 0, 0], [174, 0, 0], [172, 0, 0], [170, 0, 0], [168, 0, 0], [166, 0, 0], [163, 0, 0], [162, 0, 0], [160, 0, 0], [158, 0, 0], [156, 0, 0], [154, 0, 0], [152, 0, 0], [150, 0, 0], [147, 0, 0], [146, 0, 0], [144, 0, 0], [142, 0, 0], [140, 0, 0], [138, 0, 0], [136, 0, 0], [134, 0, 0], [132, 0, 0], [130, 0, 0], [128, 0, 0]]
 const cmap = seismic_cmap;
 
-const sziUrl = './shroom4_mA_1kx_gp5d.ps1308022.chrX_9367002-9387992.szi';
+const sziUrl = './data/shroom4_mA_1kx_gp5d.ps1308022.chrX_9367002-9387992.szi';
 
 const tileSource = await OpenSeadragon.SziTileSource.createSziTileSource(sziUrl);
 
@@ -221,8 +227,8 @@ function drawColorbar(canvas, colormap) {
 }
 
 drawColorbar(document.getElementById('colorbar'), cmap);
-//import igv from "https://cdn.jsdelivr.net/npm/igv@3.3.0/dist/igv.esm.min.js"
-import igv from "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/web_dev/igv.esm.min.js"
+import igv from "https://cdn.jsdelivr.net/npm/igv@3.3.0/dist/igv.esm.min.js"
+//import igv from "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/web_dev/igv.esm.min.js"
 
 import { enableSziTileSource } from './szi-tile-source-v0.6.1.js';
 enableSziTileSource(OpenSeadragon);
@@ -243,65 +249,87 @@ const options = {
             "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.assoc.fdr",
             "height": 100
         },
+
         {
-            "type": "wig",
-            "format": "bigwig",
+            "name": "FibreSeq 6mA, (h1:red, h2:blue)",
+            "type": "merged",
+            "autoscale": false,
+            "alpha": 0.5,
+            "height": 100,
+
             "min": 0,
             "max": 100,
-            "graphType": "bar",
-            "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.all.bw",
-            "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.all",
-            "height": 100
-        },
+            "tracks": [
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "min": 0,
+                    "max": 100,
+                    "graphType": "bar",
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h1.bw",
+                    "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h1",
+                    "height": 100,
+                    "color": h1red
+                },
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "min": 0,
+                    "max": 100,
+                    "graphType": "bar",
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h2.bw",
+                    "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h2",
+                    "height": 100,
+                    "color": h2blue
+                }
+            ]
+
+        }
+        ,
         {
-            "type": "wig",
-            "format": "bigwig",
+            "name": "DNA methyaltion 5mCpG, (h1:red, h2:blue)",
+            "type": "merged",
+            "autoscale": false,
+            "alpha": 0.5,
+            "height": 100,
+
             "min": 0,
             "max": 100,
-            "graphType": "bar",
-            "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h1.bw",
-            "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h1",
-            "height": 100
-        },
-        {
-            "type": "wig",
-            "format": "bigwig",
-            "min": 0,
-            "max": 100,
-            "graphType": "bar",
-            "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h2.bw",
-            "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.A+a.0.h2",
-            "height": 100
-        },
-        {
-            "type": "wig",
-            "format": "bigwig",
-            "min": 0,
-            "max": 100,
-            "graphType": "line",
-            "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.all.bw",
-            "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.all",
-            "height": 100
-        },
-        {
-            "type": "wig",
-            "format": "bigwig",
-            "min": 0,
-            "max": 100,
-            "graphType": "line",
-            "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h1.bw",
-            "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h1",
-            "height": 100
-        },
-        {
-            "type": "wig",
-            "format": "bigwig",
-            "min": 0,
-            "max": 100,
-            "graphType": "line",
-            "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h2.bw",
-            "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h2",
-            "height": 100
+            "tracks": [
+
+
+                // {
+                //     "type": "wig",
+                //     "format": "bigwig",
+                //     "min": 0,
+                //     "max": 100,
+                //     "graphType": "line",
+                //     "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.all.bw",
+                //     "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.all",
+                //     "height": 100
+                // },
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "min": 0,
+                    "max": 100,
+                    "graphType": "line",
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h1.bw",
+                    "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h1",
+                    "height": 100,
+                    "color": h1red
+                },
+                {
+                    "type": "wig",
+                    "format": "bigwig",
+                    "min": 0,
+                    "max": 100,
+                    "graphType": "line",
+                    "url": "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h2.bw",
+                    "name": "methylation_frequency.GP5d-psfHia5-1kx-BIDGEN-SZ-2399.cram.longshot.phased.raw.CG+m.0.h2",
+                    "height": 100,
+                    "color": h2blue
+                }]
         },
         {
             "type": "wig",
@@ -360,33 +388,33 @@ igv.createBrowser(igvDiv, options)
 
 
 
-  
+
 
 
         const target = document.getElementById('openseadragon1');
 
         function setWidth() {
             const refs = browser.root.querySelectorAll('.igv-column');
-            
+
             const rect = refs[0].getBoundingClientRect();
             const igv_rect = browser.root.getBoundingClientRect();
-            
+
             console.log(refs);
             console.log(rect)
             console.log(`Setting DZI x to ${rect.x} width to ${rect.width}px`);
-            if(rect.width>1) {
+            if (rect.width > 1) {
                 target.style.width = Math.round(rect.width) + 'px';
                 target.style.height = target.style.width;
-                target.style.left = Math.round(rect.x-igv_rect.x) + 'px';
+                target.style.left = Math.round(rect.x - igv_rect.x) + 'px';
 
             }
         }
-        
-        
+
+
         setWidth();
 
         document.getElementById('setPairButton')
-        .addEventListener('click', update_dzi_view);
+            .addEventListener('click', update_dzi_view);
         update_dzi_view();
 
         //console.log(ref);
