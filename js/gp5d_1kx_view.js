@@ -301,22 +301,6 @@ function maybeLoadImagesForChrom(chrom) {
     }
 
 }
-// szi_regions.forEach(r => {
-
-//     OpenSeadragon.SziTileSource.createSziTileSource("https://a3s.fi/251114_deepfiber/web/data/" + r).then(async src => {
-//         let m = r.match(/(chr[^_-]+)[:_-](\d+)/);
-//         src.fig_chr = m[1];
-//         src.fig_start_bp = parseInt(m[2]);
-//         console.log("Adding SZI tile source: ", src, " at ", src.fig_chr, ":", src.fig_start_bp);
-//         dziViewer.addTiledImage({ tileSource: src, x: src.fig_start_bp, y: src.fig_start_bp ,width:src.dimensions.x });
-//     });
-// });
-
-
-//var dziViewer = OpenSeadragon(opts);
-//dziViewer.fig_start_bp = 9367002;
-//dziViewer.fig_chr = "chrX";
-
 const x_coord = document.getElementById('X_coord');
 const y_coord = document.getElementById('Y_coord');
 
