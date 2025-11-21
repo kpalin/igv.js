@@ -56,7 +56,7 @@
         }
 
         .rotated {
-            width:10px;
+            width: 10px;
             /* This becomes the height after rotation */
             /* height: 1000px;*/
             /* This becomes the width after rotation */
@@ -95,6 +95,34 @@
 
         .labels span:nth-child(3) {
             text-align: right;
+        }
+
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
         }
     </style>
 
@@ -163,7 +191,7 @@
 
 
     <div class="container">
-        <div class="left-section" >
+        <div class="left-section">
             <div id="openseadragon1" style="position: relative; left: 0px; width: 100%; aspect-ratio: 1/1"></div>
             <div id="X_coord" style="width: 100%; color: rgb(255, 41, 135)">X (h1:red) Coordinate</div>
         </div>
@@ -171,7 +199,7 @@
     </div>
 
 
-    <button id="setPairButton" >Update 2d view</button>
+    <button id="setPairButton">Update 2d view</button><button id="reset2dButton">Refresh</button>
 
     <div id="igvDiv" style="width: 95%"></div>
 
@@ -189,9 +217,3053 @@
     </div>
 
 
+    <h2>Significant GWAS Variants Associated with Colorectal Cancer</h2>
 
+    These regions have the correlation matrix visualized +-15kbp.
 
+    <table>
+        <tr>
+            <th>locus</th>
+            <th>#chromosome</th>
+            <th>start_pos</th>
+            <th>end_pos</th>
+            <th>riskAllele</th>
+            <th>pValue</th>
+            <th>beta</th>
+            <th>ci</th>
+            <th>mappedGenes</th>
+            <th>efoTraits</th>
+            <th>accessionId</th>
+            <th>locations_grch38</th>
+            <th>pubmedId</th>
+            <th>author</th>
+        </tr>
+        <tr>
+            <td>chr1:22000563</td>
+            <td>chr1</td>
+            <td>22000563</td>
+            <td>22000564</td>
+            <td>rs2807367-C</td>
+            <td>3e-08</td>
+            <td>0.0379 unit decrease</td>
+            <td>[0.024-0.051]</td>
+            <td>WNT4,MIR4418</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:22176789</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:22208074</td>
+            <td>chr1</td>
+            <td>22208074</td>
+            <td>22208075</td>
+            <td>rs34963268-C</td>
+            <td>5e-15</td>
+            <td>0.06589 unit decrease</td>
+            <td>[0.049-0.082]</td>
+            <td>ZBTB40,PPIAP34</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:22384384</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:37862830</td>
+            <td>chr1</td>
+            <td>37862830</td>
+            <td>37862831</td>
+            <td>rs61776719-A</td>
+            <td>5e-17</td>
+            <td>0.0561 unit decrease</td>
+            <td>[0.043-0.069]</td>
+            <td>FHL3,RNU6-510P</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:37995647</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:54662402</td>
+            <td>chr1</td>
+            <td>54662402</td>
+            <td>54662403</td>
+            <td>rs12143541-G</td>
+            <td>1e-16</td>
+            <td>0.0825 unit increase</td>
+            <td>[0.063-0.102]</td>
+            <td>TTC22</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:54782179</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:70452701</td>
+            <td>chr1</td>
+            <td>70452701</td>
+            <td>70452702</td>
+            <td>rs3124454-T</td>
+            <td>1e-08</td>
+            <td>0.0406 unit decrease</td>
+            <td>[0.026-0.055]</td>
+            <td>CASP3P1,CHORDC1P5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:70574483</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:109832566</td>
+            <td>chr1</td>
+            <td>109832566</td>
+            <td>109832567</td>
+            <td>rs6660031-A</td>
+            <td>5e-08</td>
+            <td>0.0402 unit increase</td>
+            <td>[0.026-0.055]</td>
+            <td>NDUFA5P10,LINC01768</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:109822423</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:172253180</td>
+            <td>chr1</td>
+            <td>172253180</td>
+            <td>172253181</td>
+            <td>rs5028523-G</td>
+            <td>1e-08</td>
+            <td>0.04088 unit decrease</td>
+            <td>[0.027-0.055]</td>
+            <td>AIMP1P2,TNFSF18</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:172895084</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:182446212</td>
+            <td>chr1</td>
+            <td>182446212</td>
+            <td>182446213</td>
+            <td>rs8179460-C</td>
+            <td>1e-27</td>
+            <td>0.0706 unit decrease</td>
+            <td>[0.058-0.083]</td>
+            <td>LAMC1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:183087087</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:201174035</td>
+            <td>chr1</td>
+            <td>201174035</td>
+            <td>201174036</td>
+            <td>rs12137232-T</td>
+            <td>8e-09</td>
+            <td>0.03869 unit decrease</td>
+            <td>[0.026-0.052]</td>
+            <td>LMOD1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:201916318</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:204459037</td>
+            <td>chr1</td>
+            <td>204459037</td>
+            <td>204459038</td>
+            <td>rs12078075-A</td>
+            <td>2e-08</td>
+            <td>0.07142 unit decrease</td>
+            <td>[0.046-0.096]</td>
+            <td>DSTYK</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:205194670</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:221112289</td>
+            <td>chr1</td>
+            <td>221112289</td>
+            <td>221112290</td>
+            <td>rs6691170-T</td>
+            <td>7e-14</td>
+            <td>0.0567 unit increase</td>
+            <td>[0.042-0.072]</td>
+            <td>LINC01705</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:221872104</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:239656689</td>
+            <td>chr1</td>
+            <td>239656689</td>
+            <td>239656690</td>
+            <td>rs2078095-G</td>
+            <td>2e-08</td>
+            <td>0.040349 unit increase</td>
+            <td>[0.026-0.054]</td>
+            <td>FMN2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:240245046</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr1:244434774</td>
+            <td>chr1</td>
+            <td>244434774</td>
+            <td>244434775</td>
+            <td>rs201395236-C</td>
+            <td>4e-08</td>
+            <td>0.5281 unit decrease</td>
+            <td>[0.34-0.72]</td>
+            <td>EFCAB2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>1:245018119</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr10:8699035</td>
+            <td>chr10</td>
+            <td>8699035</td>
+            <td>8699036</td>
+            <td>rs11255841-A</td>
+            <td>3e-58</td>
+            <td>0.1114 unit decrease</td>
+            <td>[0.098-0.125]</td>
+            <td>LINC02676,RNA5SP299</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>10:8697617</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr10:28839333</td>
+            <td>chr10</td>
+            <td>28839333</td>
+            <td>28839334</td>
+            <td>rs1775910-C</td>
+            <td>8e-08</td>
+            <td>0.03989 unit decrease</td>
+            <td>[0.025-0.054]</td>
+            <td>LINC01517</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>10:28808013</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr10:29034552</td>
+            <td>chr10</td>
+            <td>29034552</td>
+            <td>29034553</td>
+            <td>rs1773860-T</td>
+            <td>3e-09</td>
+            <td>0.038277 unit increase</td>
+            <td>[0.026-0.051]</td>
+            <td>LINC01517,LYZL1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>10:29002627</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr10:51734967</td>
+            <td>chr10</td>
+            <td>51734967</td>
+            <td>51734968</td>
+            <td>rs10821905-A</td>
+            <td>5e-12</td>
+            <td>0.0634 unit decrease</td>
+            <td>[0.045-0.081]</td>
+            <td>MIX23P2,A1CF</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>10:50886333</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr10:79928652</td>
+            <td>chr10</td>
+            <td>79928652</td>
+            <td>79928653</td>
+            <td>rs704017-G</td>
+            <td>2e-38</td>
+            <td>0.0863 unit increase</td>
+            <td>[0.073-0.099]</td>
+            <td>ZMIZ1-AS1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>10:79059375</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr10:80158195</td>
+            <td>chr10</td>
+            <td>80158195</td>
+            <td>80158196</td>
+            <td>rs1782645-T</td>
+            <td>6e-09</td>
+            <td>0.0385 unit increase</td>
+            <td>[0.026-0.051]</td>
+            <td>ZMIZ1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>10:79288854</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr10:90698367</td>
+            <td>chr10</td>
+            <td>90698367</td>
+            <td>90698368</td>
+            <td>rs7071258-A</td>
+            <td>3e-06</td>
+            <td>0.0418 unit increase</td>
+            <td>[0.024-0.059]</td>
+            <td>LINC00865,MTND5P42</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>10:89814867</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr10:100412508</td>
+            <td>chr10</td>
+            <td>100412508</td>
+            <td>100412509</td>
+            <td>rs6584283-C</td>
+            <td>1e-08</td>
+            <td>0.0365 unit increase</td>
+            <td>[0.024-0.049]</td>
+            <td>LINC01475</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>10:99530544</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr10:100467412</td>
+            <td>chr10</td>
+            <td>100467412</td>
+            <td>100467413</td>
+            <td>rs35564340-A</td>
+            <td>4e-28</td>
+            <td>0.0899 unit increase</td>
+            <td>[0.074-0.106]</td>
+            <td>NKX2-3,SLC25A28</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>10:99584506</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr10:113411732</td>
+            <td>chr10</td>
+            <td>113411732</td>
+            <td>113411733</td>
+            <td>rs12241008-C</td>
+            <td>1e-27</td>
+            <td>0.1025 unit increase</td>
+            <td>[0.084-0.121]</td>
+            <td>VTI1A</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>10:112520943</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr10:113858384</td>
+            <td>chr10</td>
+            <td>113858384</td>
+            <td>113858385</td>
+            <td>rs11196172-A</td>
+            <td>7e-20</td>
+            <td>0.0795 unit increase</td>
+            <td>[0.062-0.097]</td>
+            <td>TCF7L2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>10:112967084</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr11:10394620</td>
+            <td>chr11</td>
+            <td>10394620</td>
+            <td>10394621</td>
+            <td>rs4444073-C</td>
+            <td>2e-08</td>
+            <td>0.0375 unit increase</td>
+            <td>[0.025-0.05]</td>
+            <td>AMPD3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>11:10310117</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr11:61774125</td>
+            <td>chr11</td>
+            <td>61774125</td>
+            <td>61774126</td>
+            <td>rs174537-T</td>
+            <td>2e-21</td>
+            <td>0.0643 unit decrease</td>
+            <td>[0.051-0.078]</td>
+            <td>TMEM258,MYRF</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>11:61785208</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr11:70109373</td>
+            <td>chr11</td>
+            <td>70109373</td>
+            <td>70109374</td>
+            <td>rs10751097-G</td>
+            <td>2e-12</td>
+            <td>0.04635 unit decrease</td>
+            <td>[0.033-0.059]</td>
+            <td>ANO1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>11:70092327</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr11:74582918</td>
+            <td>chr11</td>
+            <td>74582918</td>
+            <td>74582919</td>
+            <td>rs11236187-C</td>
+            <td>7e-32</td>
+            <td>0.0753 unit increase</td>
+            <td>[0.063-0.088]</td>
+            <td>POLD3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>11:74653521</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr11:74847213</td>
+            <td>chr11</td>
+            <td>74847213</td>
+            <td>74847214</td>
+            <td>rs117042741-T</td>
+            <td>1e-30</td>
+            <td>0.2261 unit decrease</td>
+            <td>[0.19-0.26]</td>
+            <td>XRRA1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>11:74917698</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr11:100855583</td>
+            <td>chr11</td>
+            <td>100855583</td>
+            <td>100855584</td>
+            <td>rs55864876-A</td>
+            <td>7e-07</td>
+            <td>0.0677 unit decrease</td>
+            <td>[0.041-0.095]</td>
+            <td>ARHGAP42</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>11:100846405</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr11:101746383</td>
+            <td>chr11</td>
+            <td>101746383</td>
+            <td>101746384</td>
+            <td>rs2155065-T</td>
+            <td>3e-08</td>
+            <td>0.0383 unit decrease</td>
+            <td>[0.025-0.052]</td>
+            <td>TRPC6</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>11:101745280</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr11:111296294</td>
+            <td>chr11</td>
+            <td>111296294</td>
+            <td>111296295</td>
+            <td>rs3087967-C</td>
+            <td>1e-57</td>
+            <td>0.1107 unit decrease</td>
+            <td>[0.097-0.124]</td>
+            <td>POU2AF2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>11:111286111</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr11:118907614</td>
+            <td>chr11</td>
+            <td>118907614</td>
+            <td>118907615</td>
+            <td>rs497916-T</td>
+            <td>3e-08</td>
+            <td>0.04099 unit increase</td>
+            <td>[0.026-0.056]</td>
+            <td>CXCR5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>11:118887380</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:4265940</td>
+            <td>chr12</td>
+            <td>4265940</td>
+            <td>4265941</td>
+            <td>rs10774214-C</td>
+            <td>4e-11</td>
+            <td>0.0447 unit decrease</td>
+            <td>[0.031-0.058]</td>
+            <td>CCND2-AS1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:4259186</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:4285866</td>
+            <td>chr12</td>
+            <td>4285866</td>
+            <td>4285867</td>
+            <td>rs3217810-T</td>
+            <td>5e-27</td>
+            <td>0.123 unit increase</td>
+            <td>[0.1-0.15]</td>
+            <td>CCND2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:4279105</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:4298423</td>
+            <td>chr12</td>
+            <td>4298423</td>
+            <td>4298424</td>
+            <td>rs3217874-T</td>
+            <td>4e-25</td>
+            <td>0.0673 unit increase</td>
+            <td>[0.055-0.08]</td>
+            <td>CCND2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:4291642</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:6284205</td>
+            <td>chr12</td>
+            <td>6284205</td>
+            <td>6284206</td>
+            <td>rs10849432-T</td>
+            <td>6e-10</td>
+            <td>0.0617 unit increase</td>
+            <td>[0.042-0.081]</td>
+            <td>ATP5MFP5,PLEKHG6</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:6276561</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:6305519</td>
+            <td>chr12</td>
+            <td>6305519</td>
+            <td>6305520</td>
+            <td>rs10849434-C</td>
+            <td>5e-18</td>
+            <td>0.0615 unit increase</td>
+            <td>[0.048-0.075]</td>
+            <td>PLEKHG6,ATP5MFP5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:6297878</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:31318401</td>
+            <td>chr12</td>
+            <td>31318401</td>
+            <td>31318402</td>
+            <td>rs77969132-T</td>
+            <td>4e-06</td>
+            <td>0.307 unit increase</td>
+            <td>[0.18-0.44]</td>
+            <td>DENND5B</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:31441879</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:42694678</td>
+            <td>chr12</td>
+            <td>42694678</td>
+            <td>42694679</td>
+            <td>rs2730985-G</td>
+            <td>1e-16</td>
+            <td>0.0532 unit increase</td>
+            <td>[0.041-0.066]</td>
+            <td>LINC02450,MRPS36P5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:42736822</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:50786265</td>
+            <td>chr12</td>
+            <td>50786265</td>
+            <td>50786266</td>
+            <td>rs11169572-C</td>
+            <td>2e-31</td>
+            <td>0.0772 unit increase</td>
+            <td>[0.064-0.09]</td>
+            <td>ATF1,RN7SL519P</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:50823107</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:57114900</td>
+            <td>chr12</td>
+            <td>57114900</td>
+            <td>57114901</td>
+            <td>rs7398375-G</td>
+            <td>4e-19</td>
+            <td>0.068 unit decrease</td>
+            <td>[0.053-0.083]</td>
+            <td>LRP1,LRP1-AS</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:57147065</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:63989448</td>
+            <td>chr12</td>
+            <td>63989448</td>
+            <td>63989449</td>
+            <td>rs7297628-C</td>
+            <td>1e-08</td>
+            <td>0.03823 unit decrease</td>
+            <td>[0.025-0.051]</td>
+            <td>SRGAP1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:64010775</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:71104055</td>
+            <td>chr12</td>
+            <td>71104055</td>
+            <td>71104056</td>
+            <td>rs11178634-T</td>
+            <td>1e-11</td>
+            <td>0.04482 unit decrease</td>
+            <td>[0.032-0.058]</td>
+            <td>PTPRR,TSPAN8</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:71124549</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:95636274</td>
+            <td>chr12</td>
+            <td>95636274</td>
+            <td>95636275</td>
+            <td>rs11108175-G</td>
+            <td>1e-15</td>
+            <td>0.0545 unit decrease</td>
+            <td>[0.041-0.068]</td>
+            <td>PGAM1P5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:95657111</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:111546881</td>
+            <td>chr12</td>
+            <td>111546881</td>
+            <td>111546882</td>
+            <td>rs653178-T</td>
+            <td>3e-24</td>
+            <td>0.0757 unit increase</td>
+            <td>[0.061-0.09]</td>
+            <td>ATXN2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:111569952</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:114637378</td>
+            <td>chr12</td>
+            <td>114637378</td>
+            <td>114637379</td>
+            <td>rs9634162-A</td>
+            <td>1e-10</td>
+            <td>0.0428 unit increase</td>
+            <td>[0.03-0.056]</td>
+            <td>Y_RNA,TBX3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:114660289</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:115432252</td>
+            <td>chr12</td>
+            <td>115432252</td>
+            <td>115432253</td>
+            <td>rs7300312-C</td>
+            <td>1e-20</td>
+            <td>0.0605 unit increase</td>
+            <td>[0.048-0.073]</td>
+            <td>TBX3-AS1,UBA52P7</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:115453117</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr12:115475315</td>
+            <td>chr12</td>
+            <td>115475315</td>
+            <td>115475316</td>
+            <td>rs7299936-A</td>
+            <td>8e-15</td>
+            <td>0.052269 unit increase</td>
+            <td>[0.039-0.065]</td>
+            <td>UBA52P7,TBX3-AS1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>12:115496195</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr13:26184043</td>
+            <td>chr13</td>
+            <td>26184043</td>
+            <td>26184044</td>
+            <td>rs116964464-T</td>
+            <td>5e-09</td>
+            <td>0.107795 unit increase</td>
+            <td>[0.072-0.144]</td>
+            <td>FGFR1OP2P1,RPS21P8</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>13:26969056</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr13:32736717</td>
+            <td>chr13</td>
+            <td>32736717</td>
+            <td>32736718</td>
+            <td>rs10161980-G</td>
+            <td>6e-13</td>
+            <td>0.0487 unit decrease</td>
+            <td>[0.035-0.062]</td>
+            <td>STARD13,RFC3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>13:33519381</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr13:36136708</td>
+            <td>chr13</td>
+            <td>36136708</td>
+            <td>36136709</td>
+            <td>rs12427846-C</td>
+            <td>2e-21</td>
+            <td>0.0777 unit increase</td>
+            <td>[0.062-0.094]</td>
+            <td>SMAD9</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>13:36917513</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr13:72296531</td>
+            <td>chr13</td>
+            <td>72296531</td>
+            <td>72296532</td>
+            <td>rs45597035-G</td>
+            <td>6e-15</td>
+            <td>0.0547 unit decrease</td>
+            <td>[0.041-0.068]</td>
+            <td>KLF5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>13:73075014</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr13:72439451</td>
+            <td>chr13</td>
+            <td>72439451</td>
+            <td>72439452</td>
+            <td>rs78341008-C</td>
+            <td>7e-14</td>
+            <td>0.1074 unit increase</td>
+            <td>[0.079-0.135]</td>
+            <td>RNU4-10P,RNY1P8</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>13:73217417</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr13:72634473</td>
+            <td>chr13</td>
+            <td>72634473</td>
+            <td>72634474</td>
+            <td>rs1886450-G</td>
+            <td>2e-12</td>
+            <td>0.0484 unit increase</td>
+            <td>[0.035-0.062]</td>
+            <td>MARK2P12,LINC00393</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>13:73412491</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr13:77252540</td>
+            <td>chr13</td>
+            <td>77252540</td>
+            <td>77252541</td>
+            <td>rs9318511-C</td>
+            <td>6e-09</td>
+            <td>0.0587 unit increase</td>
+            <td>[0.039-0.078]</td>
+            <td>OBI1-AS1,LINC00446</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>13:78027278</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr13:108929039</td>
+            <td>chr13</td>
+            <td>108929039</td>
+            <td>108929040</td>
+            <td>rs1078563-C</td>
+            <td>6e-09</td>
+            <td>0.0406 unit decrease</td>
+            <td>[0.027-0.054]</td>
+            <td>LINC00676,LINC00399</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>13:109700504</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr13:109656933</td>
+            <td>chr13</td>
+            <td>109656933</td>
+            <td>109656934</td>
+            <td>rs4600332-G</td>
+            <td>1e-10</td>
+            <td>0.0443 unit increase</td>
+            <td>[0.031-0.058]</td>
+            <td>COL4A2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>13:110426525</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr14:45099379</td>
+            <td>chr14</td>
+            <td>45099379</td>
+            <td>45099380</td>
+            <td>rs28611105-G</td>
+            <td>7e-09</td>
+            <td>0.0477 unit increase</td>
+            <td>[0.032-0.064]</td>
+            <td>PYGL,ABHD12B</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>14:50892940</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr14:46231980</td>
+            <td>chr14</td>
+            <td>46231980</td>
+            <td>46231981</td>
+            <td>rs1497077-C</td>
+            <td>4e-08</td>
+            <td>0.04084 unit increase</td>
+            <td>[0.026-0.055]</td>
+            <td>NID2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>14:52024937</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr14:48160613</td>
+            <td>chr14</td>
+            <td>48160613</td>
+            <td>48160614</td>
+            <td>rs35107139-C</td>
+            <td>7e-31</td>
+            <td>0.0842 unit increase</td>
+            <td>[0.07-0.099]</td>
+            <td>BMP4</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>14:53952388</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr14:48186650</td>
+            <td>chr14</td>
+            <td>48186650</td>
+            <td>48186651</td>
+            <td>rs4901473-A</td>
+            <td>3e-10</td>
+            <td>0.0441 unit decrease</td>
+            <td>[0.03-0.058]</td>
+            <td>ATP5F1CP1,BMP4</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>14:53978439</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr14:52929761</td>
+            <td>chr14</td>
+            <td>52929761</td>
+            <td>52929762</td>
+            <td>rs17094983-A</td>
+            <td>2e-07</td>
+            <td>0.0636 unit decrease</td>
+            <td>[0.039-0.088]</td>
+            <td>LINC01500</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>14:58722643</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr14:52948836</td>
+            <td>chr14</td>
+            <td>52948836</td>
+            <td>52948837</td>
+            <td>rs8020436-A</td>
+            <td>1e-14</td>
+            <td>0.0598 unit increase</td>
+            <td>[0.045-0.075]</td>
+            <td>LINC01500</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>14:58741719</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr14:93548186</td>
+            <td>chr14</td>
+            <td>93548186</td>
+            <td>93548187</td>
+            <td>rs80158569-A</td>
+            <td>2e-07</td>
+            <td>0.0801 unit increase</td>
+            <td>[0.05-0.11]</td>
+            <td>BCL11B,SETD3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>14:99316600</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr15:30504132</td>
+            <td>chr15</td>
+            <td>30504132</td>
+            <td>30504133</td>
+            <td>rs1554865-T</td>
+            <td>1e-53</td>
+            <td>0.1209 unit decrease</td>
+            <td>[0.11-0.14]</td>
+            <td>SCG5,GREM1-AS1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>15:32707605</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr15:30513899</td>
+            <td>chr15</td>
+            <td>30513899</td>
+            <td>30513900</td>
+            <td>rs1919364-G</td>
+            <td>1e-24</td>
+            <td>0.0743 unit increase</td>
+            <td>[0.06-0.088]</td>
+            <td>GREM1-AS1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>15:32717373</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr15:30660471</td>
+            <td>chr15</td>
+            <td>30660471</td>
+            <td>30660472</td>
+            <td>rs17816465-A</td>
+            <td>6e-20</td>
+            <td>0.0816 unit increase</td>
+            <td>[0.064-0.099]</td>
+            <td>FMN1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>15:32864185</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr15:64529563</td>
+            <td>chr15</td>
+            <td>64529563</td>
+            <td>64529564</td>
+            <td>rs3809570-A</td>
+            <td>9e-12</td>
+            <td>0.0542 unit decrease</td>
+            <td>[0.039-0.07]</td>
+            <td>SMAD6</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>15:66707779</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr15:64932390</td>
+            <td>chr15</td>
+            <td>64932390</td>
+            <td>64932391</td>
+            <td>rs56324967-C</td>
+            <td>1e-13</td>
+            <td>0.0526 unit increase</td>
+            <td>[0.039-0.067]</td>
+            <td>SMAD3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>15:67110486</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr15:65605220</td>
+            <td>chr15</td>
+            <td>65605220</td>
+            <td>65605221</td>
+            <td>rs77148098-A</td>
+            <td>1e-09</td>
+            <td>0.0655 unit increase</td>
+            <td>[0.045-0.086]</td>
+            <td>MAP2K5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>15:67783360</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr15:70033156</td>
+            <td>chr15</td>
+            <td>70033156</td>
+            <td>70033157</td>
+            <td>rs8031386-A</td>
+            <td>5e-09</td>
+            <td>0.04231 unit increase</td>
+            <td>[0.028-0.056]</td>
+            <td>PKM</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>15:72216458</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr15:88398074</td>
+            <td>chr15</td>
+            <td>88398074</td>
+            <td>88398075</td>
+            <td>rs71407320-T</td>
+            <td>4e-08</td>
+            <td>0.0729 unit increase</td>
+            <td>[0.047-0.099]</td>
+            <td>CRTC3-AS1,CRTC3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>15:90642059</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr16:74506246</td>
+            <td>chr16</td>
+            <td>74506246</td>
+            <td>74506247</td>
+            <td>rs9924886-C</td>
+            <td>5e-14</td>
+            <td>0.0562 unit decrease</td>
+            <td>[0.042-0.071]</td>
+            <td>CDH3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>16:68710036</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr16:86063972</td>
+            <td>chr16</td>
+            <td>86063972</td>
+            <td>86063973</td>
+            <td>rs3936188-G</td>
+            <td>1e-24</td>
+            <td>0.0664 unit decrease</td>
+            <td>[0.054-0.079]</td>
+            <td>DYNLRB2-AS1,LINC01228</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>16:80002943</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr16:92288318</td>
+            <td>chr16</td>
+            <td>92288318</td>
+            <td>92288319</td>
+            <td>rs847208-A</td>
+            <td>6e-06</td>
+            <td>0.032 unit increase</td>
+            <td>[0.018-0.046]</td>
+            <td>LINC01082,LINC01081</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>16:86220445</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr16:92372448</td>
+            <td>chr16</td>
+            <td>92372448</td>
+            <td>92372449</td>
+            <td>rs7206216-T</td>
+            <td>4e-12</td>
+            <td>0.0452 unit decrease</td>
+            <td>[0.032-0.058]</td>
+            <td>LINC01081</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>16:86304682</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr16:92738408</td>
+            <td>chr16</td>
+            <td>92738408</td>
+            <td>92738409</td>
+            <td>rs62042090-T</td>
+            <td>2e-12</td>
+            <td>0.0546 unit increase</td>
+            <td>[0.039-0.07]</td>
+            <td>FOXL1,LINC02188</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>16:86670343</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr17:792055</td>
+            <td>chr17</td>
+            <td>792055</td>
+            <td>792056</td>
+            <td>rs4968127-A</td>
+            <td>5e-21</td>
+            <td>0.0622 unit decrease</td>
+            <td>[0.049-0.075]</td>
+            <td>NXN</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>17:906403</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr17:817624</td>
+            <td>chr17</td>
+            <td>817624</td>
+            <td>817625</td>
+            <td>rs11247566-G</td>
+            <td>7e-09</td>
+            <td>0.037775 unit increase</td>
+            <td>[0.025-0.051]</td>
+            <td>NXN</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>17:932131</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr17:10711832</td>
+            <td>chr17</td>
+            <td>10711832</td>
+            <td>10711833</td>
+            <td>rs1078643-A</td>
+            <td>2e-27</td>
+            <td>0.0869 unit increase</td>
+            <td>[0.071-0.103]</td>
+            <td>TMEM220-AS1,TMEM238L</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>17:10803924</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr17:73290176</td>
+            <td>chr17</td>
+            <td>73290176</td>
+            <td>73290177</td>
+            <td>rs983318-A</td>
+            <td>7e-12</td>
+            <td>0.0565 unit increase</td>
+            <td>[0.04-0.073]</td>
+            <td>LINC00511</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>17:72417112</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr17:84116044</td>
+            <td>chr17</td>
+            <td>84116044</td>
+            <td>84116045</td>
+            <td>rs35204860-C</td>
+            <td>3e-25</td>
+            <td>0.0781 unit increase</td>
+            <td>[0.063-0.093]</td>
+            <td>RPL23AP87,METRNL</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>17:83095585</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr18:3776357</td>
+            <td>chr18</td>
+            <td>3776357</td>
+            <td>3776358</td>
+            <td>rs1791373-A</td>
+            <td>1e-08</td>
+            <td>0.04065 unit decrease</td>
+            <td>[0.027-0.055]</td>
+            <td>DLGAP1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>18:3616780</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr18:49121220</td>
+            <td>chr18</td>
+            <td>49121220</td>
+            <td>49121221</td>
+            <td>rs2337113-G</td>
+            <td>3e-150</td>
+            <td>0.1717 unit decrease</td>
+            <td>[0.16-0.18]</td>
+            <td>SMAD7</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>18:48925957</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr19:5828357</td>
+            <td>chr19</td>
+            <td>5828357</td>
+            <td>5828358</td>
+            <td>rs10409772-A</td>
+            <td>1e-10</td>
+            <td>0.066878 unit increase</td>
+            <td>[0.046-0.087]</td>
+            <td>FUT6,FUT3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>19:5840915</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr19:16441268</td>
+            <td>chr19</td>
+            <td>16441268</td>
+            <td>16441269</td>
+            <td>rs34797592-T</td>
+            <td>9e-15</td>
+            <td>0.0904 unit increase</td>
+            <td>[0.067-0.113]</td>
+            <td>KLF2-DT</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>19:16306387</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr19:35547696</td>
+            <td>chr19</td>
+            <td>35547696</td>
+            <td>35547697</td>
+            <td>rs28840750-G</td>
+            <td>4e-41</td>
+            <td>0.1926 unit decrease</td>
+            <td>[0.16-0.22]</td>
+            <td>RHPN2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>19:33029021</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr19:44175259</td>
+            <td>chr19</td>
+            <td>44175259</td>
+            <td>44175260</td>
+            <td>rs1800469-G</td>
+            <td>8e-15</td>
+            <td>0.0529 unit increase</td>
+            <td>[0.04-0.066]</td>
+            <td>TMEM91</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>19:41354391</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr19:51709764</td>
+            <td>chr19</td>
+            <td>51709764</td>
+            <td>51709765</td>
+            <td>rs12979278-T</td>
+            <td>8e-07</td>
+            <td>0.0361 unit increase</td>
+            <td>[0.022-0.05]</td>
+            <td>MAMSTR</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>19:48715345</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr19:61602267</td>
+            <td>chr19</td>
+            <td>61602267</td>
+            <td>61602268</td>
+            <td>rs11670192-A</td>
+            <td>3e-11</td>
+            <td>0.0596 unit increase</td>
+            <td>[0.042-0.077]</td>
+            <td>SLC27A5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>19:58506273</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr2:98117112</td>
+            <td>chr2</td>
+            <td>98117112</td>
+            <td>98117113</td>
+            <td>rs11692435-A</td>
+            <td>7e-12</td>
+            <td>0.091 unit decrease</td>
+            <td>[0.065-0.117]</td>
+            <td>ACTR1B</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>2:97658891</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr2:136090440</td>
+            <td>chr2</td>
+            <td>136090440</td>
+            <td>136090441</td>
+            <td>rs1446585-G</td>
+            <td>5e-06</td>
+            <td>0.0391 unit increase</td>
+            <td>[0.022-0.056]</td>
+            <td>R3HDM1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>2:135649909</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr2:159567842</td>
+            <td>chr2</td>
+            <td>159567842</td>
+            <td>159567843</td>
+            <td>rs448513-C</td>
+            <td>1e-10</td>
+            <td>0.0439 unit increase</td>
+            <td>[0.031-0.057]</td>
+            <td>TANC1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>2:159108040</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr2:168626414</td>
+            <td>chr2</td>
+            <td>168626414</td>
+            <td>168626415</td>
+            <td>rs4668039-G</td>
+            <td>3e-08</td>
+            <td>0.0415 unit increase</td>
+            <td>[0.027-0.056]</td>
+            <td>STK39</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>2:168168869</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr2:199189805</td>
+            <td>chr2</td>
+            <td>199189805</td>
+            <td>199189806</td>
+            <td>rs6434979-A</td>
+            <td>1e-13</td>
+            <td>0.0476 unit increase</td>
+            <td>[0.035-0.06]</td>
+            <td>RNU7-147P,PLCL1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>2:198705994</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr2:199507837</td>
+            <td>chr2</td>
+            <td>199507837</td>
+            <td>199507838</td>
+            <td>rs4675253-G</td>
+            <td>5e-17</td>
+            <td>0.0619 unit increase</td>
+            <td>[0.047-0.076]</td>
+            <td>RNU7-147P,PLCL1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>2:199023809</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr2:218812285</td>
+            <td>chr2</td>
+            <td>218812285</td>
+            <td>218812286</td>
+            <td>rs3731861-C</td>
+            <td>8e-17</td>
+            <td>0.0557 unit decrease</td>
+            <td>[0.043-0.069]</td>
+            <td>PNKD,CATIP-AS2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>2:218326533</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:6437003</td>
+            <td>chr20</td>
+            <td>6437003</td>
+            <td>6437004</td>
+            <td>rs966816-A</td>
+            <td>2e-38</td>
+            <td>0.0946 unit decrease</td>
+            <td>[0.08-0.109]</td>
+            <td>FGFR3P3,CASC20</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:6395834</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:6664093</td>
+            <td>chr20</td>
+            <td>6664093</td>
+            <td>6664094</td>
+            <td>rs994308-T</td>
+            <td>7e-24</td>
+            <td>0.069 unit decrease</td>
+            <td>[0.055-0.083]</td>
+            <td>CASC20,LINC01713</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:6622975</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:6760136</td>
+            <td>chr20</td>
+            <td>6760136</td>
+            <td>6760137</td>
+            <td>rs4813802-G</td>
+            <td>8e-30</td>
+            <td>0.0784 unit increase</td>
+            <td>[0.065-0.092]</td>
+            <td>CASC20,LINC01713</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:6718948</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:6822772</td>
+            <td>chr20</td>
+            <td>6822772</td>
+            <td>6822773</td>
+            <td>rs28488-T</td>
+            <td>7e-13</td>
+            <td>0.0501 unit increase</td>
+            <td>[0.036-0.064]</td>
+            <td>BMP2,LINC01428</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:6781574</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:7873424</td>
+            <td>chr20</td>
+            <td>7873424</td>
+            <td>7873425</td>
+            <td>rs2423279-C</td>
+            <td>2e-24</td>
+            <td>0.0734 unit increase</td>
+            <td>[0.059-0.088]</td>
+            <td>SRSF10P2,RN7SL547P</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:7831703</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:36322481</td>
+            <td>chr20</td>
+            <td>36322481</td>
+            <td>36322482</td>
+            <td>rs6059938-A</td>
+            <td>8e-08</td>
+            <td>0.0352 unit decrease</td>
+            <td>[0.022-0.048]</td>
+            <td>PIGU</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:34599326</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:45637349</td>
+            <td>chr20</td>
+            <td>45637349</td>
+            <td>45637350</td>
+            <td>rs6065668-T</td>
+            <td>6e-07</td>
+            <td>0.0353 unit increase</td>
+            <td>[0.021-0.049]</td>
+            <td>LINC01728,TOX2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:43904181</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:45764592</td>
+            <td>chr20</td>
+            <td>45764592</td>
+            <td>45764593</td>
+            <td>rs6017248-C</td>
+            <td>2e-11</td>
+            <td>0.0493 unit increase</td>
+            <td>[0.035-0.064]</td>
+            <td>TOX2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:44029634</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:50493443</td>
+            <td>chr20</td>
+            <td>50493443</td>
+            <td>50493444</td>
+            <td>rs6066825-G</td>
+            <td>2e-32</td>
+            <td>0.0807 unit decrease</td>
+            <td>[0.067-0.094]</td>
+            <td>PREX1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:48723580</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:52139649</td>
+            <td>chr20</td>
+            <td>52139649</td>
+            <td>52139650</td>
+            <td>rs6012915-T</td>
+            <td>7e-19</td>
+            <td>0.0595 unit decrease</td>
+            <td>[0.046-0.073]</td>
+            <td>LINC01271,RN7SL636P</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:50370030</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:52213236</td>
+            <td>chr20</td>
+            <td>52213236</td>
+            <td>52213237</td>
+            <td>rs6095946-T</td>
+            <td>6e-23</td>
+            <td>0.0647 unit decrease</td>
+            <td>[0.052-0.078]</td>
+            <td>RN7SL636P,COX6CP2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:50443654</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:52409373</td>
+            <td>chr20</td>
+            <td>52409373</td>
+            <td>52409374</td>
+            <td>rs6091189-T</td>
+            <td>4e-06</td>
+            <td>0.04 unit increase</td>
+            <td>[0.023-0.057]</td>
+            <td>RIPOR3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:50639748</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:59033883</td>
+            <td>chr20</td>
+            <td>59033883</td>
+            <td>59033884</td>
+            <td>rs6014965-G</td>
+            <td>4e-12</td>
+            <td>0.0466 unit decrease</td>
+            <td>[0.033-0.06]</td>
+            <td>BMP7</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:57256147</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:64153015</td>
+            <td>chr20</td>
+            <td>64153015</td>
+            <td>64153016</td>
+            <td>rs1741640-C</td>
+            <td>8e-55</td>
+            <td>0.1325 unit increase</td>
+            <td>[0.12-0.15]</td>
+            <td>LAMA5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:62357358</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr20:65491207</td>
+            <td>chr20</td>
+            <td>65491207</td>
+            <td>65491208</td>
+            <td>rs2738783-G</td>
+            <td>2e-10</td>
+            <td>0.0533 unit decrease</td>
+            <td>[0.037-0.07]</td>
+            <td>RTEL1,RTEL1-TNFRSF6B</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>20:63677259</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr21:44737917</td>
+            <td>chr21</td>
+            <td>44737917</td>
+            <td>44737918</td>
+            <td>rs9983528-A</td>
+            <td>5e-13</td>
+            <td>0.064285 unit increase</td>
+            <td>[0.047-0.082]</td>
+            <td>PCNT</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>21:46352525</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr22:29471381</td>
+            <td>chr22</td>
+            <td>29471381</td>
+            <td>29471382</td>
+            <td>rs4616575-G</td>
+            <td>1e-10</td>
+            <td>0.04097 unit decrease</td>
+            <td>[0.028-0.054]</td>
+            <td>ZNRF3,ZNRF3-IT1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>22:29010088</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr22:39718918</td>
+            <td>chr22</td>
+            <td>39718918</td>
+            <td>39718919</td>
+            <td>rs130651-A</td>
+            <td>3e-10</td>
+            <td>0.04889 unit decrease</td>
+            <td>[0.034-0.064]</td>
+            <td>RPL3,PDGFB</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>22:39248268</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr22:43774571</td>
+            <td>chr22</td>
+            <td>43774571</td>
+            <td>43774572</td>
+            <td>rs5751474-A</td>
+            <td>2e-08</td>
+            <td>0.050829 unit increase</td>
+            <td>[0.033-0.069]</td>
+            <td>SCUBE1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>22:43293536</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr22:43863516</td>
+            <td>chr22</td>
+            <td>43863516</td>
+            <td>43863517</td>
+            <td>rs34256596-A</td>
+            <td>2e-07</td>
+            <td>0.040034 unit increase</td>
+            <td>[0.025-0.055]</td>
+            <td>LINC01639,SCUBE1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>22:43382425</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr22:45834249</td>
+            <td>chr22</td>
+            <td>45834249</td>
+            <td>45834250</td>
+            <td>rs9614460-G</td>
+            <td>2e-09</td>
+            <td>0.0403 unit increase</td>
+            <td>[0.027-0.053]</td>
+            <td>SMC1B</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>22:45349348</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr22:46452921</td>
+            <td>chr22</td>
+            <td>46452921</td>
+            <td>46452922</td>
+            <td>rs9330814-T</td>
+            <td>2e-09</td>
+            <td>0.048994 unit increase</td>
+            <td>[0.033-0.065]</td>
+            <td>WNT7B</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>22:45968311</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:40888776</td>
+            <td>chr3</td>
+            <td>40888776</td>
+            <td>40888777</td>
+            <td>rs35470271-G</td>
+            <td>7e-22</td>
+            <td>0.0809 unit increase</td>
+            <td>[0.064-0.097]</td>
+            <td>RPS27P4,MRPS31P1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:40873748</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:52879724</td>
+            <td>chr3</td>
+            <td>52879724</td>
+            <td>52879725</td>
+            <td>rs2001732-T</td>
+            <td>2e-13</td>
+            <td>0.0741 unit decrease</td>
+            <td>[0.054-0.094]</td>
+            <td>STIMATE-MUSTN1,STIMATE</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:52846724</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:53070668</td>
+            <td>chr3</td>
+            <td>53070668</td>
+            <td>53070669</td>
+            <td>rs2581817-C</td>
+            <td>5e-13</td>
+            <td>0.0471 unit decrease</td>
+            <td>[0.034-0.06]</td>
+            <td>SFMBT1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:53037781</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:64310324</td>
+            <td>chr3</td>
+            <td>64310324</td>
+            <td>64310325</td>
+            <td>rs704417-T</td>
+            <td>4e-10</td>
+            <td>0.045147 unit increase</td>
+            <td>[0.031-0.059]</td>
+            <td>PRICKLE2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:64266748</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:64682408</td>
+            <td>chr3</td>
+            <td>64682408</td>
+            <td>64682409</td>
+            <td>rs7623129-T</td>
+            <td>2e-08</td>
+            <td>0.03665 unit decrease</td>
+            <td>[0.024-0.049]</td>
+            <td>ADAMTS9</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:64638750</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:66438475</td>
+            <td>chr3</td>
+            <td>66438475</td>
+            <td>66438476</td>
+            <td>rs67550176-C</td>
+            <td>1e-08</td>
+            <td>0.0492 unit increase</td>
+            <td>[0.032-0.066]</td>
+            <td>LRIG1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:66393906</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:115906035</td>
+            <td>chr3</td>
+            <td>115906035</td>
+            <td>115906036</td>
+            <td>rs13086367-G</td>
+            <td>2e-16</td>
+            <td>0.0538 unit decrease</td>
+            <td>[0.041-0.067]</td>
+            <td>NEPRO-AS1,BOC</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:113185041</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:115919068</td>
+            <td>chr3</td>
+            <td>115919068</td>
+            <td>115919069</td>
+            <td>rs12635946-T</td>
+            <td>2e-16</td>
+            <td>0.0563 unit decrease</td>
+            <td>[0.043-0.07]</td>
+            <td>NEPRO-AS1,BOC</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:113198071</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:116001780</td>
+            <td>chr3</td>
+            <td>116001780</td>
+            <td>116001781</td>
+            <td>rs72942485-A</td>
+            <td>9e-14</td>
+            <td>0.1456 unit decrease</td>
+            <td>[0.11-0.18]</td>
+            <td>BOC</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:113280713</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:136727432</td>
+            <td>chr3</td>
+            <td>136727432</td>
+            <td>136727433</td>
+            <td>rs10049390-A</td>
+            <td>5e-14</td>
+            <td>0.0543 unit increase</td>
+            <td>[0.04-0.068]</td>
+            <td>SLCO2A1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:133982275</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:136775083</td>
+            <td>chr3</td>
+            <td>136775083</td>
+            <td>136775084</td>
+            <td>rs113569514-C</td>
+            <td>2e-21</td>
+            <td>0.0803 unit decrease</td>
+            <td>[0.064-0.097]</td>
+            <td>SLCO2A1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:134029945</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr3:172558538</td>
+            <td>chr3</td>
+            <td>172558538</td>
+            <td>172558539</td>
+            <td>rs10936599-T</td>
+            <td>1e-13</td>
+            <td>0.0533 unit decrease</td>
+            <td>[0.039-0.067]</td>
+            <td>MYNN</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>3:169774313</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr4:97332198</td>
+            <td>chr4</td>
+            <td>97332198</td>
+            <td>97332199</td>
+            <td>rs280097-C</td>
+            <td>4e-12</td>
+            <td>0.0463 unit increase</td>
+            <td>[0.033-0.059]</td>
+            <td>ATOH1,SMARCAD1-DT</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>4:94016709</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr4:108520960</td>
+            <td>chr4</td>
+            <td>108520960</td>
+            <td>108520961</td>
+            <td>rs2007403-T</td>
+            <td>3e-14</td>
+            <td>0.0517 unit increase</td>
+            <td>[0.038-0.065]</td>
+            <td>TET2,TET2-AS1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>4:105210053</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr4:117884294</td>
+            <td>chr4</td>
+            <td>117884294</td>
+            <td>117884295</td>
+            <td>rs2388976-A</td>
+            <td>2e-08</td>
+            <td>0.036815 unit increase</td>
+            <td>[0.024-0.05]</td>
+            <td>ARSJ,UGT8</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>4:114581250</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr4:148055309</td>
+            <td>chr4</td>
+            <td>148055309</td>
+            <td>148055310</td>
+            <td>rs11727676-C</td>
+            <td>1e-13</td>
+            <td>0.0927 unit increase</td>
+            <td>[0.068-0.117]</td>
+            <td>HHIP</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>4:144737912</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr4:153903902</td>
+            <td>chr4</td>
+            <td>153903902</td>
+            <td>153903903</td>
+            <td>rs10006803-C</td>
+            <td>3e-08</td>
+            <td>0.035631 unit increase</td>
+            <td>[0.023-0.048]</td>
+            <td>LRBA</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>4:150580056</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr4:177839080</td>
+            <td>chr4</td>
+            <td>177839080</td>
+            <td>177839081</td>
+            <td>rs1426947-C</td>
+            <td>7e-10</td>
+            <td>0.04053 unit decrease</td>
+            <td>[0.028-0.053]</td>
+            <td>HPGD</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>4:174499372</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr5:1147790</td>
+            <td>chr5</td>
+            <td>1147790</td>
+            <td>1147791</td>
+            <td>rs77776598-C</td>
+            <td>5e-19</td>
+            <td>0.1396 unit increase</td>
+            <td>[0.11-0.17]</td>
+            <td>SLC6A18</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>5:1240883</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr5:1204181</td>
+            <td>chr5</td>
+            <td>1204181</td>
+            <td>1204182</td>
+            <td>rs2735940-G</td>
+            <td>6e-36</td>
+            <td>0.0822 unit increase</td>
+            <td>[0.069-0.095]</td>
+            <td>TERT,MIR4457</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>5:1296371</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr5:40347032</td>
+            <td>chr5</td>
+            <td>40347032</td>
+            <td>40347033</td>
+            <td>rs55810369-T</td>
+            <td>7e-12</td>
+            <td>0.0518 unit decrease</td>
+            <td>[0.037-0.067]</td>
+            <td>KRT18P56,LINC00604</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>5:40090682</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr5:40538401</td>
+            <td>chr5</td>
+            <td>40538401</td>
+            <td>40538402</td>
+            <td>rs1445012-C</td>
+            <td>7e-35</td>
+            <td>0.0962 unit increase</td>
+            <td>[0.081-0.111]</td>
+            <td>TTC33,RNU1-150P</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>5:40282004</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr5:84074187</td>
+            <td>chr5</td>
+            <td>84074187</td>
+            <td>84074188</td>
+            <td>rs3930345-T</td>
+            <td>7e-09</td>
+            <td>0.04535 unit decrease</td>
+            <td>[0.03-0.061]</td>
+            <td>HAPLN1,VCAN</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>5:83585436</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr5:135690462</td>
+            <td>chr5</td>
+            <td>135690462</td>
+            <td>135690463</td>
+            <td>rs647161-A</td>
+            <td>9e-18</td>
+            <td>0.059 unit increase</td>
+            <td>[0.045-0.073]</td>
+            <td>PITX1-AS1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>5:135163402</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr5:150703467</td>
+            <td>chr5</td>
+            <td>150703467</td>
+            <td>150703468</td>
+            <td>rs2302274-G</td>
+            <td>2e-14</td>
+            <td>0.0501 unit increase</td>
+            <td>[0.037-0.063]</td>
+            <td>CDX1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>5:150166863</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr5:173437734</td>
+            <td>chr5</td>
+            <td>173437734</td>
+            <td>173437735</td>
+            <td>rs472959-A</td>
+            <td>5e-09</td>
+            <td>0.037722 unit increase</td>
+            <td>[0.025-0.05]</td>
+            <td>ERGIC1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>5:172897555</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:6618794</td>
+            <td>chr6</td>
+            <td>6618794</td>
+            <td>6618795</td>
+            <td>rs1294437-T</td>
+            <td>1e-08</td>
+            <td>0.04 unit decrease</td>
+            <td>[0.026-0.054]</td>
+            <td>BTF3P7,LY86</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:6749556</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:7101236</td>
+            <td>chr6</td>
+            <td>7101236</td>
+            <td>7101237</td>
+            <td>rs9379084-A</td>
+            <td>2e-12</td>
+            <td>0.06967 unit decrease</td>
+            <td>[0.05-0.089]</td>
+            <td>RREB1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:7231610</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:12160920</td>
+            <td>chr6</td>
+            <td>12160920</td>
+            <td>12160921</td>
+            <td>rs2070699-T</td>
+            <td>4e-15</td>
+            <td>0.0515 unit increase</td>
+            <td>[0.039-0.064]</td>
+            <td>EDN1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:12292539</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:28769633</td>
+            <td>chr6</td>
+            <td>28769633</td>
+            <td>28769634</td>
+            <td>rs209142-C</td>
+            <td>4e-08</td>
+            <td>0.038042 unit increase</td>
+            <td>[0.025-0.052]</td>
+            <td>ZNF90P2,HCG14</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:28894840</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:30910230</td>
+            <td>chr6</td>
+            <td>30910230</td>
+            <td>30910231</td>
+            <td>rs116353863-C</td>
+            <td>3e-09</td>
+            <td>0.1648 unit increase</td>
+            <td>[0.11-0.22]</td>
+            <td>MUC22,HCG22</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:31042408</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:30962625</td>
+            <td>chr6</td>
+            <td>30962625</td>
+            <td>30962626</td>
+            <td>rs2517448-C</td>
+            <td>2e-11</td>
+            <td>0.0461 unit increase</td>
+            <td>[0.033-0.059]</td>
+            <td>RNU6-1133P,C6orf15</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:31094890</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:31205475</td>
+            <td>chr6</td>
+            <td>31205475</td>
+            <td>31205476</td>
+            <td>rs62401893-A</td>
+            <td>3e-08</td>
+            <td>0.1039 unit increase</td>
+            <td>[0.067-0.141]</td>
+            <td>HLA-B,LINC02571</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:31349584</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:31312439</td>
+            <td>chr6</td>
+            <td>31312439</td>
+            <td>31312440</td>
+            <td>rs2516452-G</td>
+            <td>5e-11</td>
+            <td>0.0729 unit decrease</td>
+            <td>[0.051-0.095]</td>
+            <td>LINC01149,HCP5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:31459318</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:32448294</td>
+            <td>chr6</td>
+            <td>32448294</td>
+            <td>32448295</td>
+            <td>rs9271363-C</td>
+            <td>9e-20</td>
+            <td>0.0836 unit increase</td>
+            <td>[0.066-0.102]</td>
+            <td>HLA-DQA1,HLA-DRB1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:32618955</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:35424859</td>
+            <td>chr6</td>
+            <td>35424859</td>
+            <td>35424860</td>
+            <td>rs16878812-G</td>
+            <td>8e-15</td>
+            <td>0.0897 unit decrease</td>
+            <td>[0.067-0.112]</td>
+            <td>FKBP5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:35601785</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:36476250</td>
+            <td>chr6</td>
+            <td>36476250</td>
+            <td>36476251</td>
+            <td>rs9470361-A</td>
+            <td>2e-18</td>
+            <td>0.0675 unit increase</td>
+            <td>[0.052-0.083]</td>
+            <td>Y_RNA,RNU1-88P</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:36655602</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:45439146</td>
+            <td>chr6</td>
+            <td>45439146</td>
+            <td>45439147</td>
+            <td>rs57939401-A</td>
+            <td>4e-10</td>
+            <td>0.063901 unit increase</td>
+            <td>[0.044-0.084]</td>
+            <td>RUNX2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:45604334</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:55552058</td>
+            <td>chr6</td>
+            <td>55552058</td>
+            <td>55552059</td>
+            <td>rs2208603-C</td>
+            <td>4e-12</td>
+            <td>0.0489 unit increase</td>
+            <td>[0.035-0.063]</td>
+            <td>BMP5,HMGCLL1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:55712416</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:55686945</td>
+            <td>chr6</td>
+            <td>55686945</td>
+            <td>55686946</td>
+            <td>rs62404966-T</td>
+            <td>1e-15</td>
+            <td>0.0668 unit decrease</td>
+            <td>[0.051-0.083]</td>
+            <td>BMP5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:55847326</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:55696117</td>
+            <td>chr6</td>
+            <td>55696117</td>
+            <td>55696118</td>
+            <td>rs6912214-C</td>
+            <td>1e-10</td>
+            <td>0.04424 unit decrease</td>
+            <td>[0.031-0.058]</td>
+            <td>BMP5</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:55856504</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:106694852</td>
+            <td>chr6</td>
+            <td>106694852</td>
+            <td>106694853</td>
+            <td>rs6928864-A</td>
+            <td>9e-07</td>
+            <td>0.0927 unit decrease</td>
+            <td>[0.056-0.13]</td>
+            <td>LINC02836,PREP</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:105519019</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:107210614</td>
+            <td>chr6</td>
+            <td>107210614</td>
+            <td>107210615</td>
+            <td>rs145997965-C</td>
+            <td>1e-08</td>
+            <td>0.189455 unit increase</td>
+            <td>[0.12-0.25]</td>
+            <td>PRDM1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:106034738</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:118672108</td>
+            <td>chr6</td>
+            <td>118672108</td>
+            <td>118672109</td>
+            <td>rs6911915-C</td>
+            <td>4e-12</td>
+            <td>0.044697 unit increase</td>
+            <td>[0.032-0.057]</td>
+            <td>DCBLD1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:117487868</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr6:134861644</td>
+            <td>chr6</td>
+            <td>134861644</td>
+            <td>134861645</td>
+            <td>rs151127921-T</td>
+            <td>3e-08</td>
+            <td>0.159257 unit increase</td>
+            <td>[0.1-0.22]</td>
+            <td>TARID</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>6:133672787</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr7:2937229</td>
+            <td>chr7</td>
+            <td>2937229</td>
+            <td>2937230</td>
+            <td>rs1182197-C</td>
+            <td>5e-09</td>
+            <td>0.03938 unit decrease</td>
+            <td>[0.026-0.053]</td>
+            <td>GNA12</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>7:2823655</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr7:45271535</td>
+            <td>chr7</td>
+            <td>45271535</td>
+            <td>45271536</td>
+            <td>rs7810512-C</td>
+            <td>2e-11</td>
+            <td>0.0496 unit decrease</td>
+            <td>[0.035-0.064]</td>
+            <td>TBRG4</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>7:45110732</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr7:46216206</td>
+            <td>chr7</td>
+            <td>46216206</td>
+            <td>46216207</td>
+            <td>rs80077929-T</td>
+            <td>4e-07</td>
+            <td>0.0604 unit increase</td>
+            <td>[0.037-0.084]</td>
+            <td>TTC4P1,ZNF619P1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>7:46054491</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr7:47011214</td>
+            <td>chr7</td>
+            <td>47011214</td>
+            <td>47011215</td>
+            <td>rs4236382-A</td>
+            <td>5e-13</td>
+            <td>0.0468 unit increase</td>
+            <td>[0.034-0.06]</td>
+            <td>EPS15P1,MRPL42P4</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>7:46849813</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr7:47633002</td>
+            <td>chr7</td>
+            <td>47633002</td>
+            <td>47633003</td>
+            <td>rs6948177-G</td>
+            <td>1e-17</td>
+            <td>0.0613 unit increase</td>
+            <td>[0.047-0.075]</td>
+            <td>TNS3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>7:47471143</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr7:74953807</td>
+            <td>chr7</td>
+            <td>74953807</td>
+            <td>74953808</td>
+            <td>rs12539962-T</td>
+            <td>3e-08</td>
+            <td>0.0394 unit decrease</td>
+            <td>[0.025-0.053]</td>
+            <td>ABHD11,CLDN3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>7:73752929</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr7:101119304</td>
+            <td>chr7</td>
+            <td>101119304</td>
+            <td>101119305</td>
+            <td>rs2527927-A</td>
+            <td>3e-10</td>
+            <td>0.0412 unit decrease</td>
+            <td>[0.028-0.054]</td>
+            <td>TRIM4</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>7:99879803</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr7:132233501</td>
+            <td>chr7</td>
+            <td>132233501</td>
+            <td>132233502</td>
+            <td>rs17686932-G</td>
+            <td>3e-12</td>
+            <td>0.1166 unit decrease</td>
+            <td>[0.084-0.149]</td>
+            <td>LINC-PINT,LINC00513</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>7:130915989</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr8:24082070</td>
+            <td>chr8</td>
+            <td>24082070</td>
+            <td>24082071</td>
+            <td>rs60911071-C</td>
+            <td>2e-08</td>
+            <td>0.0615 unit decrease</td>
+            <td>[0.04-0.083]</td>
+            <td>NKX2-6,STC1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>8:23807119</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr8:59251294</td>
+            <td>chr8</td>
+            <td>59251294</td>
+            <td>59251295</td>
+            <td>rs826732-C</td>
+            <td>6e-10</td>
+            <td>0.041216 unit increase</td>
+            <td>[0.028-0.054]</td>
+            <td>TOX</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>8:58830080</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr8:117739167</td>
+            <td>chr8</td>
+            <td>117739167</td>
+            <td>117739168</td>
+            <td>rs2450115-C</td>
+            <td>5e-28</td>
+            <td>0.0854 unit decrease</td>
+            <td>[0.07-0.101]</td>
+            <td>LINC00536,EIF3H</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>8:116611854</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr8:117745746</td>
+            <td>chr8</td>
+            <td>117745746</td>
+            <td>117745747</td>
+            <td>rs16892766-C</td>
+            <td>2e-56</td>
+            <td>0.202 unit increase</td>
+            <td>[0.18-0.23]</td>
+            <td>EIF3H,LINC00536</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>8:116618444</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr8:117906800</td>
+            <td>chr8</td>
+            <td>117906800</td>
+            <td>117906801</td>
+            <td>rs117079142-A</td>
+            <td>1e-28</td>
+            <td>0.1798 unit increase</td>
+            <td>[0.15-0.21]</td>
+            <td>UTP23</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>8:116778675</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr8:128528598</td>
+            <td>chr8</td>
+            <td>128528598</td>
+            <td>128528599</td>
+            <td>rs6983267-T</td>
+            <td>2e-122</td>
+            <td>0.151 unit decrease</td>
+            <td>[0.14-0.16]</td>
+            <td>CASC8,CCAT2,POU5F1B,PCAT1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>8:127401060</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr8:128530185</td>
+            <td>chr8</td>
+            <td>128530185</td>
+            <td>128530186</td>
+            <td>rs7013278-C</td>
+            <td>1e-102</td>
+            <td>0.143 unit decrease</td>
+            <td>[0.13-0.16]</td>
+            <td>CASC8,POU5F1B,PCAT1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>8:127402647</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr8:128696760</td>
+            <td>chr8</td>
+            <td>128696760</td>
+            <td>128696761</td>
+            <td>rs4733767-A</td>
+            <td>4e-12</td>
+            <td>0.0504 unit decrease</td>
+            <td>[0.036-0.065]</td>
+            <td>CASC8,CASC11</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>8:127569333</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr9:22120217</td>
+            <td>chr9</td>
+            <td>22120217</td>
+            <td>22120218</td>
+            <td>rs7859362-C</td>
+            <td>1e-17</td>
+            <td>0.0553 unit decrease</td>
+            <td>[0.043-0.068]</td>
+            <td>CDKN2B-AS1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>9:22105928</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr9:34126072</td>
+            <td>chr9</td>
+            <td>34126072</td>
+            <td>34126073</td>
+            <td>rs11557154-T</td>
+            <td>6e-10</td>
+            <td>0.052237 unit increase</td>
+            <td>[0.036-0.069]</td>
+            <td>DCAF12</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>9:34107507</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr9:111089169</td>
+            <td>chr9</td>
+            <td>111089169</td>
+            <td>111089170</td>
+            <td>rs34405347-G</td>
+            <td>1e-09</td>
+            <td>0.0601 unit decrease</td>
+            <td>[0.041-0.08]</td>
+            <td>ADIPINT</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>9:98917470</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr9:119783329</td>
+            <td>chr9</td>
+            <td>119783329</td>
+            <td>119783330</td>
+            <td>rs10978941-T</td>
+            <td>2e-12</td>
+            <td>0.0605 unit decrease</td>
+            <td>[0.044-0.077]</td>
+            <td>PPIAP88,RNU6-996P</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>9:107611538</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr9:123064020</td>
+            <td>chr9</td>
+            <td>123064020</td>
+            <td>123064021</td>
+            <td>rs10817106-C</td>
+            <td>1e-09</td>
+            <td>0.0478 unit increase</td>
+            <td>[0.032-0.063]</td>
+            <td>LPAR1</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>9:110892374</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr9:146033319</td>
+            <td>chr9</td>
+            <td>146033319</td>
+            <td>146033320</td>
+            <td>rs7038489-T</td>
+            <td>1e-08</td>
+            <td>0.07362 unit decrease</td>
+            <td>[0.048-0.099]</td>
+            <td>VAV2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>9:133817346</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chr9:146276477</td>
+            <td>chr9</td>
+            <td>146276477</td>
+            <td>146276478</td>
+            <td>rs11789898-T</td>
+            <td>6e-09</td>
+            <td>0.05266 unit increase</td>
+            <td>[0.035-0.07]</td>
+            <td>BRD3</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>9:134060541</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
+        <tr>
+            <td>chrX:9378397</td>
+            <td>chrX</td>
+            <td>9378397</td>
+            <td>9378398</td>
+            <td>rs2732875-C</td>
+            <td>8e-12</td>
+            <td>0.169 unit increase</td>
+            <td>[0.12-0.22]</td>
+            <td>SHROOM2</td>
+            <td>colorectal cancer</td>
+            <td>GCST90129505</td>
+            <td>X:9795858</td>
+            <td>36539618</td>
+            <td>Fernandez-Rozadilla C</td>
+        </tr>
 
+    </table>
 
     <script type="module" src="./js/gp5d_1kx_view.js">
 
