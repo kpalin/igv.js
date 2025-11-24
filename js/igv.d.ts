@@ -171,7 +171,7 @@ export namespace Tracks {
 
     export type AnnotationFormat = "bed" | "gff3" | "gtf" |
         "genePred" | "genePredExt" | "peaks" |
-        "narrowPeak" | "broadPeak" | "bigBed" | "bedpe" | "rmsk" | "vcf" |
+        "narrowPeak" | "broadPeak" | "bigBed" | "rmsk" | "vcf" |
         "gtexgwas";
 
     export type AnnotationTrackDisplay = {
@@ -384,7 +384,7 @@ export namespace Tracks {
     });
 
 
-    export type InteractFormat = "interact" | "bedpe" | "bigInteract" | "bb";
+    export type InteractFormat = "interact" | "bedpe" | "bigInteract" | "bb" | "hic";
 
     export type InteractTrackOptions = {
         arcType?: "nested" | "proportional" | "inView" | "partialInView";
@@ -531,7 +531,9 @@ export namespace BrowserEvents {
                         genomicLocation?: number
                     ) => EventReturn<T> :
                     T extends "trackorderchanged" ? (trackNames: string[]) => EventReturn<T> :
-                        (payload: any) => EventReturn<T>;
+                        T extends "roiadded" ? (roi: { chr: string; start: number; end: number; name?: string }) => EventReturn<T> :
+                            T extends "roiremoved" ? (roi: { chr: string; start: number; end: number; name?: string }) => EventReturn<T> :
+                                (payload: any) => EventReturn<T>;
 
     export type EventReturn<T extends EventType> =
         T extends "trackclick" ? string | boolean | undefined :

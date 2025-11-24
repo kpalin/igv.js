@@ -30,7 +30,6 @@ import {createCircularView, makeCircViewChromosomes} from "./jbrowse/circularVie
 import ROIManager from './roi/ROIManager.js'
 import TrackROISet from "./roi/trackROISet.js"
 import SampleInfo from "./sample/sampleInfo.js"
-import HicFile from "./hic/straw/hicFile.js"
 import {translateSession} from "./hic/shoeboxUtils.js"
 import MenuUtils from "./ui/menuUtils.js"
 import Genome from "./genome/genome.js"
@@ -89,6 +88,11 @@ class Browser {
         shadowRoot.appendChild(this.root)
 
         this.alert = new Alert(this.root)
+
+        this.spinnerElement = document.createElement('div')
+        this.spinnerElement.className = 'igv-loading-spinner-container'
+        this.root.appendChild(this.spinnerElement)
+        this.spinnerElement.appendChild(document.createElement('div'))
 
         this.columnContainer = DOMUtils.div({class: 'igv-column-container'})
         this.root.appendChild(this.columnContainer)
@@ -390,10 +394,7 @@ class Browser {
 
         let session
         if (options.url || options.file) {
-            session = await Browser.loadSessionFile(options, this.config)
-            // if (options.parentApp``) {
-            //     session.parentApp = options.parentApp
-            // }
+            session = await Browser.loadSessionFile(options)
         } else {
             session = options
         }
@@ -407,7 +408,7 @@ class Browser {
      * @param options
      * @returns {Promise<*|XMLSession>}
      */
-    static async loadSessionFile(options, defaults) {
+    static async loadSessionFile(options) {
 
         const urlOrFile = options.url || options.file
 
@@ -432,11 +433,11 @@ class Browser {
                 config = {
                     reference: genomeConfig
                 }
-            } else  {
+            } else {
                 config = await igvxhr.loadJson(urlOrFile)
             }
         }
-        setDefaults(config, defaults)
+
         return config
     }
 
@@ -446,6 +447,9 @@ class Browser {
      * @returns {Promise<void>}
      */
     async loadSessionObject(session) {
+
+        // Capture current configuration options that might be missing from session
+        setDefaults(session, this.config)
 
         // prepare to load a new session, discarding DOM and state
         this.cleanHouseForSession()
@@ -848,33 +852,40 @@ class Browser {
      */
     async loadTrackList(configList) {
 
-        // Impose an order if not specified
-        let order = this.trackViews.length + 1
-        for (let c of configList) {
-            if (c.order === undefined) {
-                c.order = order++
+        try {
+            this.startSpinner()   // TODO this.startSpinner() when we have one
+
+            // Impose an order if not specified
+            let order = this.trackViews.length + 1
+            for (let c of configList) {
+                if (c.order === undefined) {
+                    c.order = order++
+                }
             }
+
+            const promises = []
+            for (const config of configList) {
+                promises.push(this.#loadTrackHelper(config))
+            }
+
+            const loadedTracks = await Promise.all(promises)
+
+            // If any tracks are selected show the selection buttons
+            if (this.trackViews.some(({track}) => track.selected)) {
+                this.navbar.setEnableTrackSelection(true)
+            }
+
+            this.reorderTracks()
+
+            await resize.call(this)
+
+            this.fireEvent('trackorderchanged', [this.getTrackOrder()])
+
+            return loadedTracks
+
+        } finally {
+            this.stopSpinner()   // TODO  this.stopSpinner()
         }
-
-        const promises = []
-        for (const config of configList) {
-            promises.push(this.#loadTrackHelper(config))
-        }
-
-        const loadedTracks = await Promise.all(promises)
-
-        // If any tracks are selected show the selection buttons
-        if (this.trackViews.some(({track}) => track.selected)) {
-            this.navbar.setEnableTrackSelection(true)
-        }
-
-        this.reorderTracks()
-
-        await resize.call(this)
-
-        this.fireEvent('trackorderchanged', [this.getTrackOrder()])
-
-        return loadedTracks
     }
 
     /**
@@ -901,13 +912,14 @@ class Browser {
             config = JSON.parse(config)
         }
 
-        if(config.format && config.format.toLowerCase() === 'sampleinfo') {
+        if (config.format && config.format.toLowerCase() === 'sampleinfo') {
             return this.loadSampleInfo(config)
         }
 
         let track
         try {
             track = await this.createTrack(config)
+
         } catch (error) {
 
             let msg = error.message || error.error || error.toString()
@@ -929,12 +941,12 @@ class Browser {
             throw err
         }
 
+
         if (track) {
             return await this.addTrack(track)
         } else {
             return undefined
         }
-
     }
 
     async addTrack(track) {
@@ -944,19 +956,15 @@ class Browser {
             track.order = this.trackViews.length
         }
 
+        if (typeof track.postInit === 'function') {
+            await track.postInit()
+        }
+
+        // Add track view AFTER postInit, to avoid adding a track that fails during postInit
         const trackView = new TrackView(this, this.columnContainer, track)
         this.trackViews.push(trackView)
         toggleTrackLabels(this.trackViews, this.doShowTrackLabels)
 
-        if (typeof track.postInit === 'function') {
-
-            try {
-                trackView.startSpinner()
-                await track.postInit()
-            } finally {
-                trackView.stopSpinner()
-            }
-        }
 
         if (typeof track.hasSamples === 'function' && track.hasSamples()) {
 
@@ -1064,15 +1072,6 @@ class Browser {
             // If neither format nor type are known throw an error
             if (!config.format) {
                 throw Error(`Unrecognized track:  ${JSON.stringify(config)}`)
-            } else if (config.format === "hic") {
-                const hicFile = new HicFile(config)
-                await hicFile.readHeaderAndFooter()
-                if (hicFile.chromosomeIndexMap.celltype) {
-                    type = "shoebox"
-                    config._hicFile = hicFile
-                } else {
-                    throw Error("'.hic' files not supported")
-                }
             } else {
                 type = TrackUtils.inferTrackType(config.format)
                 if ("bedtype" === type) {
@@ -1491,7 +1490,7 @@ class Browser {
     }
 
     minimumBases() {
-        return this.config.minimumBases
+        return this.config.minimumBases ?? 40
     }
 
     // Zoom in by a factor of 2, keeping the same center location
@@ -2253,6 +2252,19 @@ class Browser {
     async blat(sequence) {
         return createBlatTrack({sequence, browser: this, name: 'Blat', title: 'Blat'})
     }
+
+    startSpinner() {
+        if (this.spinnerElement) {
+            this.spinnerElement.style.display = 'flex'
+        }
+    }
+
+    stopSpinner() {
+        if (this.spinnerElement) {
+            this.spinnerElement.style.display = 'none'
+        }
+    }
+
 }
 
 function

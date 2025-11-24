@@ -9,6 +9,7 @@ import {makeBedPEChords, sendChords} from "../jbrowse/circularViewUtils.js"
 
 import {getChrColor} from "../util/getChrColor.js"
 import {ColorTable, PaletteColorTable} from "../util/colorPalletes.js"
+import * as DOMUtils from "../ui/utils/dom-utils.js"
 
 function getArcType(config) {
     if (!config.arcType) {
@@ -37,7 +38,9 @@ class InteractionTrack extends TrackBase {
         thickness: 1,
         alpha: 0.02,
         logScale: true,
-        colorBy: undefined
+        colorBy: undefined,
+        transparency: 1,
+        normalization: "NONE"
     }
 
     constructor(config, browser) {
@@ -63,6 +66,13 @@ class InteractionTrack extends TrackBase {
         this.cosTheta = Math.cos(this.theta)
         this.arcType = getArcType(config)   // nested | proportional | inView | partialInView
         this.painter = {flipAxis: "DOWN" === this.arcOrientation, dataRange: this.dataRange, paintAxis: paintAxis}
+
+        this._hic = "hic" === config.format
+        if (this._hic) {
+            config.useScore = true
+            this.color = config.color ?? "rgb(255,0,0)"
+            this.transparency = config.transparency ?? 0.1
+        }
 
         if (config.valueColumn) {
             this.valueColumn = config.valueColumn
@@ -128,9 +138,13 @@ class InteractionTrack extends TrackBase {
         return typeof this.featureSource.supportsWholeGenome === 'function' ? this.featureSource.supportsWholeGenome() : true
     }
 
-    async getFeatures(chr, start, end) {
+    get resolutionAware() {
+        return this._hic
+    }
+
+    async getFeatures(chr, start, end, bpPerPixel) {
         const visibilityWindow = this.visibilityWindow
-        const features = await this.featureSource.getFeatures({chr, start, end, visibilityWindow})
+        const features = await this.featureSource.getFeatures({chr, start, end, bpPerPixel, visibilityWindow, normalization: this.normalization})
 
         // Check for score or value
         if (this.hasValue === undefined && features && features.length > 0) {
@@ -175,11 +189,17 @@ class InteractionTrack extends TrackBase {
             ctx.font = "8px sans-serif"
             ctx.textAlign = "center"
 
+            let transparency = this.transparency
+            if (this._hic && bpPerPixel < 1000) {
+                // A heuristic.  Boost transparency when zooming in as arc density will get sparse and hard to see.
+                transparency *= (3 - bpPerPixel / 500)
+            }
+
             for (let feature of featureList) {
 
                 // Reset transient property drawState.  An undefined value => feature has not been drawn.
                 feature.drawState = undefined
-                let color = this.getColor(feature)
+                let color = this.getColor(feature, transparency)
                 ctx.fillStyle = color
                 ctx.strokeStyle = color
 
@@ -231,12 +251,14 @@ class InteractionTrack extends TrackBase {
                         ctx.strokeStyle = color
                         ctx.fillStyle = color
                     }
+
                     ctx.beginPath()
                     ctx.arc(xc, yc, r, startAngle, endAngle, false)
                     ctx.stroke()
                     feature.drawState = {xc, yc, r}
                 } else {
 
+                    // Inter-chromosome, we can only draw 2 end
                     let pixelStart = Math.round((feature.start - bpStart) / xScale)
                     let pixelEnd = Math.round((feature.end - bpStart) / xScale)
                     if (pixelEnd < 0 || pixelStart > pixelWidth) continue
@@ -267,20 +289,29 @@ class InteractionTrack extends TrackBase {
         }
 
         function autoscaleNested() {
-            let max = 0
-            for (let feature of featureList) {
-                let pixelStart = (feature.start - bpStart) / xScale
-                let pixelEnd = (feature.end - bpStart) / xScale
-                if (pixelStart >= 0 && pixelEnd <= pixelWidth) {
-                    max = Math.max(max, pixelEnd - pixelStart)
-                }
-            }
-            let a = Math.min(viewportWidth, max) / 2
-            if (max > 0) {
-                let coa = (pixelHeight - 10) / a
-                this.theta = estimateTheta(coa)
+
+            if(this._hic) {
+                // No autoscaling for hic files
+                this.theta = Math.PI / 3
                 this.sinTheta = Math.sin(this.theta)
                 this.cosTheta = Math.cos(this.theta)
+            }
+            else {
+                let max = 0
+                for (let feature of featureList) {
+                    let pixelStart = (feature.start - bpStart) / xScale
+                    let pixelEnd = (feature.end - bpStart) / xScale
+                    if (pixelStart >= 0 && pixelEnd <= pixelWidth) {
+                        max = Math.max(max, pixelEnd - pixelStart)
+                    }
+                }
+                let a = Math.min(viewportWidth, max) / 2
+                if (max > 0) {
+                    let coa = (pixelHeight - 10) / a
+                    this.theta = estimateTheta(coa)
+                    this.sinTheta = Math.sin(this.theta)
+                    this.cosTheta = Math.cos(this.theta)
+                }
             }
         }
     }
@@ -421,7 +452,7 @@ class InteractionTrack extends TrackBase {
         }
     }
 
-    getColor(feature) {
+    getColor(feature, transparency = this.transparency) {
         let color
         if (this.colorBy) {
             const value = feature.getAttributeValue ?
@@ -434,7 +465,7 @@ class InteractionTrack extends TrackBase {
             color = this.color || feature.color || DEFAULT_ARC_COLOR
         }
         if (this.config.useScore && Number.isFinite(feature.score)) {
-            color = getAlphaColor(color, scoreShade(feature.score))
+            color = getAlphaColor(color, transparency * scoreShade(feature.score))
         }
         return color
     }
@@ -469,7 +500,7 @@ class InteractionTrack extends TrackBase {
 
         let items = []
 
-        if (this.hasValue) {
+        if (this.hasValue && !this._hic) {
             items.push("<hr/>")
             const lut =
                 {
@@ -528,36 +559,57 @@ class InteractionTrack extends TrackBase {
             }
         })
 
-        items.push({
-            name: 'Set alpha',
-            click: function (ev) {
-                const inputDialog = this.browser.inputDialog
-                inputDialog.present({
-                    label: "Enter alpha transparency (0-1)",
-                    value: this.alpha,
-                    callback: value => {
-                        const newAlpha = parseFloat(value)
-                        if (isNaN(newAlpha) || newAlpha < 0 || newAlpha > 1) {
-                            window.alert("Invalid alpha: " + value)
-                        } else {
-                            this.alpha = newAlpha
-                            this.trackView.repaintViews()
-                        }
-                    }
-                }, ev)
-            }
-        })
 
-        if (this.hasValue) {
+        if (this._hic) {
+
+            items.push(this.transparencyMenuItem())
+
+        } else {
             items.push({
-                element: createCheckbox("Use score", this.config.useScore), click: () => {
-                    this.config.useScore = !this.config.useScore
-                    this.valueColumn = "score"
-                    this.trackView.repaintViews()
+                name: 'Set alpha',
+                click: function (ev) {
+                    const inputDialog = this.browser.inputDialog
+                    inputDialog.present({
+                        label: "Enter alpha transparency (0-1)",
+                        value: this.alpha,
+                        callback: value => {
+                            const newAlpha = parseFloat(value)
+                            if (isNaN(newAlpha) || newAlpha < 0 || newAlpha > 1) {
+                                window.alert("Invalid alpha: " + value)
+                            } else {
+                                this.alpha = newAlpha
+                                this.trackView.repaintViews()
+                            }
+                        }
+                    }, ev)
                 }
             })
+
+            if (this.hasValue) {
+                items.push({
+                    element: createCheckbox("Use score", this.config.useScore), click: () => {
+                        this.config.useScore = !this.config.useScore
+                        this.valueColumn = "score"
+                        this.trackView.repaintViews()
+                    }
+                })
+            }
         }
 
+        if (this._hic) {
+            items.push('<hr/>')
+            items.push('<b>Normalization</b>')
+            for (let option of this.featureSource.normalizationOptions) {
+                items.push({
+                    element: createCheckbox(option, this.normalization === option),
+                    click: () => {
+                        this.normalization = option
+                        this.trackView.clearCachedFeatures()
+                        this.trackView.updateViews()
+                    }
+                })
+            }
+        }
 
         if (this.arcType === "proportional" || this.arcType === "inView" || this.arcType === "partialInView") {
             items = items.concat(this.numericDataMenuItems())
@@ -576,6 +628,34 @@ class InteractionTrack extends TrackBase {
         }
 
         return items
+    }
+
+    transparencyMenuItem() {
+
+        const element = DOMUtils.div()
+        element.innerText = 'Set transparency'
+
+        function dialogPresentationHandler(e) {
+            const callback = alpha => {
+                this.transparency = Math.max(0.001, alpha)
+                this.repaintViews()
+            }
+
+            const config =
+                {
+                    label: 'Transparency',
+                    value: this.transparency,
+                    min: 0.01,
+                    max: 1.0,
+                    scaleFactor: 1000,
+                    color: this.color,
+                    callback
+                }
+
+            this.browser.sliderDialog.present(config, e)
+        }
+
+        return {element, dialog: dialogPresentationHandler}
     }
 
     contextMenuItemList(clickState) {
@@ -894,7 +974,6 @@ function getWGFeatures(allFeatures) {
         wgFeatures.sort(function (a, b) {
             return a.start - b.start
         })
-        console.log(wgFeatures.length)
     }
 
 
