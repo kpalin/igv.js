@@ -16,6 +16,14 @@ let opts = {
     panVertical: false,
     showNavigationControl: false,
 
+    immediateRender: true,
+    minPixelRatio: 1.0,
+    maxTilesPerFrame: 3,
+    animationTime: 0.2,
+    springStiffness: 9.0,
+    loadDestinationTilesOnAnimation: true,
+    maxImageCacheCount: 1000,
+
     gestureSettingsMouse: {
         clickToZoom: false,
         dragToPan: false,
@@ -292,7 +300,7 @@ function drawColorbar(canvas, colormap) {
 }
 
 drawColorbar(document.getElementById('colorbar'), cmap);
-import igv from "https://cdn.jsdelivr.net/npm/igv@3.3.0/dist/igv.esm.min.js"
+import igv from "https://cdn.jsdelivr.net/npm/igv@3.8.1/dist/igv.esm.min.js"
 //import igv from "https://a3s.fi/250619_BIDGEN-SZ-2399_GP5d-psfHia5-1kx/epigenome/cram/web_dev/igv.esm.min.js"
 
 
