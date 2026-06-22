@@ -150,6 +150,11 @@
             gap: 6px;
             align-items: start;
             justify-items: start;
+            justify-content: start;
+            /* Size the grid to its content so the columns stay packed together;
+               otherwise a wide window stretches the auto column and pushes the
+               heatmap far from the Y panel. */
+            width: max-content;
             margin: 10px 0;
         }
 

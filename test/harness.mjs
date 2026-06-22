@@ -20,9 +20,9 @@ const HAR = join(__dirname, 'session.har');
 
 export const BASE = process.env.URL || 'http://localhost:8000/gp5d_1kx_view.html';
 
-export async function openPage({ timeout = 60000, useHar = existsSync(HAR) } = {}) {
+export async function openPage({ timeout = 60000, useHar = existsSync(HAR), viewport = { width: 1700, height: 2000 } } = {}) {
     const browser = await chromium.launch();
-    const ctx = await browser.newContext({ viewport: { width: 1700, height: 2000 } });
+    const ctx = await browser.newContext({ viewport });
     const page = await ctx.newPage();
 
     // Replay recorded data responses (registered first => lowest precedence).

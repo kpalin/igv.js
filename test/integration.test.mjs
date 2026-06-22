@@ -48,6 +48,25 @@ describe('heatmap is pixel-aligned to the IGV data viewports', () => {
     });
 });
 
+describe('panels stay close to the heatmap in a wide window', () => {
+    let wide;
+    before(async function () { this.timeout(90000); wide = await openPage({ timeout: 75000, viewport: { width: 2600, height: 1600 } }); });
+    after(async () => { if (wide) await wide.browser.close(); });
+
+    it('does not drift the heatmap far from the Y panel', async () => {
+        const m = await wide.page.evaluate(() => {
+            const osd = (document.querySelector('#openseadragon1 canvas') || document.getElementById('openseadragon1')).getBoundingClientRect();
+            const yCell = document.getElementById('igvY-cell').getBoundingClientRect();
+            return { gap: osd.left - yCell.right, gridW: document.querySelector('.viewer-grid').getBoundingClientRect().width, vw: window.innerWidth };
+        });
+        // The visible gap between the Y panel and the heatmap is just the X panel's
+        // left gutter + grid gap, and must NOT grow with the (2600px) window.
+        assert.ok(m.gap < 80, `gap between Y panel and heatmap should stay small; got ${Math.round(m.gap)}px`);
+        // The grid is content-sized, far narrower than the wide window.
+        assert.ok(m.gridW < m.vw - 400, `grid should not stretch to the window; gridW=${Math.round(m.gridW)} vw=${m.vw}`);
+    });
+});
+
 describe('rotated Y-panel pointer shim', () => {
     // A tall track viewport (NOT the thin ruler): for the rotated Y panel the
     // genomic axis is the HEIGHT, so we want height > 200.
