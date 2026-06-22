@@ -124,6 +124,80 @@
             background-color: #04AA6D;
             color: white;
         }
+
+        /* --- 2D heatmap + dual IGV layout ---
+           Layout (Y panel on the LEFT of the square heatmap):
+
+             [ Y IGV ] [ heatmap ]
+             [        ] [ X IGV   ]
+
+           IGV_W is the fixed width each IGV browser renders at; the OSD square is
+           sized/positioned from JS (alignViews) to overlay the IGV data viewports
+           exactly, so genomic positions line up across all three views. */
+        :root {
+            --igv-w: 820px;
+        }
+
+        .controls {
+            margin: 10px 0;
+        }
+
+        .viewer-grid {
+            position: relative;          /* offset parent for the absolutely-placed OSD */
+            display: grid;
+            grid-template-columns: auto var(--igv-w);
+            grid-template-rows: auto auto;
+            gap: 6px;
+            align-items: start;
+            justify-items: start;
+            margin: 10px 0;
+        }
+
+        /* The square OpenSeadragon heatmap. Absolutely positioned + sized by JS.
+           outline (not border) frames it without offsetting the canvas, so the
+           canvas edge aligns exactly with the IGV data viewports. */
+        .osd {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 700px;
+            height: 700px;
+            outline: 1px solid lightgray;
+            background-color: white;
+            z-index: 1;
+        }
+
+        /* Bottom-right: IGV synced to the X (horizontal) axis */
+        #igvDivX {
+            width: var(--igv-w);
+        }
+
+        /* Left column: IGV synced to the Y (vertical) axis, rotated 90deg.
+           Cell width/height are set from JS once the browser renders. */
+        .igvY-cell {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #igvDivY {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: var(--igv-w);
+            transform-origin: top left;
+        }
+
+        /* Reserves the top-right grid slot the heatmap overlays. */
+        .osd-slot {
+            width: var(--igv-w);
+        }
+
+        /* Bottom-left corner: readouts + colorbar */
+        .corner-cell {
+            font-size: 13px;
+            padding: 6px;
+            line-height: 1.6;
+        }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/openseadragon@5.0/build/openseadragon/openseadragon.min.js"></script>
@@ -174,29 +248,41 @@
     </div>
 
 
-    <div class="colorbar-container">
-        <canvas id="colorbar" width="256" height="30"></canvas>
-        <div class="labels">
-            <span>-1</span>
-            <span>0</span>
-            <span>1</span>
-        </div>
-    </div>
-    <div id="click-position">click position</div>
-
-
-    <div class="container">
-        <div class="left-section">
-            <div id="openseadragon1" style="position: relative; left: 0px; width: 100%; aspect-ratio: 1/1"></div>
-            <div id="X_coord" style="width: 100%; color: rgb(255, 41, 135)">X (h1:red) Coordinate</div>
-        </div>
-        <div id="Y_coord" style="color: rgb(40, 118, 255)" class="rotated">Y Coordinate</div>
+    <div class="controls">
+        <button id="setPairButton">Push IGV loci &rarr; 2D view</button>
+        <button id="reset2dButton">Refresh</button>
     </div>
 
+    <div class="viewer-grid">
+        <!-- Row 1, col 1: Y-axis IGV, rotated 90deg, to the LEFT of the heatmap -->
+        <div id="igvY-cell" class="igvY-cell">
+            <div id="igvDivY"></div>
+        </div>
 
-    <button id="setPairButton">Update 2d view</button><button id="reset2dButton">Refresh</button>
+        <!-- Row 1, col 2: slot the square heatmap is positioned over -->
+        <div class="osd-slot"></div>
 
-    <div id="igvDiv" style="width: 95%"></div>
+        <!-- Row 2, col 1: readouts + colorbar -->
+        <div class="corner-cell">
+            <div id="x-region" style="color: rgb(255, 41, 135)">X (h1)</div>
+            <div id="y-region" style="color: rgb(40, 118, 255)">Y (h2)</div>
+            <div id="click-position">Click the heatmap to read a correlation value</div>
+            <div class="colorbar-container" style="margin-top: 8px;">
+                <canvas id="colorbar" width="256" height="20"></canvas>
+                <div class="labels">
+                    <span>-1</span>
+                    <span>0</span>
+                    <span>1</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2, col 2: X-axis IGV, directly below the heatmap -->
+        <div id="igvDivX" class="igvX-cell"></div>
+
+        <!-- The square heatmap: absolutely positioned + sized by alignViews() -->
+        <div id="openseadragon1" class="osd"></div>
+    </div>
 
     <div class="info">
 

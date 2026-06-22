@@ -1,0 +1,3 @@
+node_modules/
+# Recorded network fixture (21MB) — regenerate with: node record-har.mjs
+session.har
