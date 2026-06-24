@@ -28,10 +28,20 @@ npm run test:e2e    # browser integration
   - both igv browsers render (into their shadow DOM) with parseable loci,
   - the heatmap is pixel-aligned to the X and Y data viewports (≤2px),
   - the Y panel sits to the left of the heatmap,
+  - the panels stay packed against the heatmap in a wide window,
   - the rotated Y-panel shim turns a vertical drag into a genomic pan (and a
     horizontal drag does not pan),
   - clicking the heatmap reports a correlation and X/Y positions inside range,
-  - the "Push IGV loci → 2D view" button reads loci without error.
+  - the "Push IGV loci → 2D view" and "Copy X locus → Y" buttons work,
+  - **alignment + genomic sync survive UI interactions**: window resize,
+    scroll-zoom on the heatmap, panning the X panel, changing the Y locus, and a
+    vertical drag of the Y panel — each asserts the heatmap stays pixel-aligned,
+    the panels stay in genomic sync, and the bidirectional sync does not
+    oscillate.
+
+Note: igv stops recognizing drag-pans on the CSS-rotated Y panel after it
+re-renders, so the Y-drag test runs on a fresh page (drag = first interaction);
+once navigated, the Y panel is driven by the heatmap / X panel / buttons.
 
 ## How it stays deterministic
 

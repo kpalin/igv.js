@@ -66,12 +66,16 @@ export async function openPage({ timeout = 60000, useHar = existsSync(HAR), view
 // Evaluated in-page: the data-viewport ("genomic area") rect for an igv browser,
 // reaching into its shadow DOM. Returns the widest track viewport, whose width
 // is the span the genomic axis maps onto (i.e. excludes the left axis gutter).
+//
+// Uses getClientRects()[0] rather than getBoundingClientRect: the app overrides
+// getBoundingClientRect for the rotated Y panel (to feed igv un-rotated rects),
+// so getClientRects is how we read the TRUE on-screen rotated rect.
 export const DATA_RECT_FN = `(hostId) => {
     const host = document.getElementById(hostId);
     const sr = host.shadowRoot;
     const vps = [...sr.querySelectorAll('.igv-viewport')];
     if (!vps.length) return null;
     let best = null, bestW = -1;
-    for (const v of vps) { const r = v.getBoundingClientRect(); if (r.width > bestW) { bestW = r.width; best = r; } }
+    for (const v of vps) { const r = v.getClientRects()[0]; if (r && r.width > bestW) { bestW = r.width; best = r; } }
     return { x: best.x, y: best.y, w: best.width, h: best.height };
 }`;

@@ -174,39 +174,70 @@ dziViewer.addHandler('canvas-click', function (event) {
     //console.log(`Pixel color RGBA: (${red}, ${green}, ${blue}, ${alpha})`);
 });
 
-let update_igv_from_dzi = true;
+// ---- Genomic sync between the heatmap (OSD) and the two IGV panels -----------
+// The X panel drives the heatmap's x-axis, the Y panel its y-axis, and the
+// heatmap drives both. To keep this bidirectional without feedback loops, every
+// sync is IDEMPOTENT: it only acts when the target actually differs from the
+// source (beyond a small tolerance), so an echo event is a no-op and the system
+// converges. (Because the heatmap is square, an x/y span mismatch settles to a
+// common square region, which is the only undistorted view of a square matrix.)
 
-dziViewer.addHandler('animation-finish', function (event) {
-    const bounds = event.eventSource.viewport.getBounds(false);
-    const topLeft = viewportToGenomicCoordinates(bounds.getTopLeft());
-    const bottomRight = viewportToGenomicCoordinates(bounds.getBottomRight());
-    const event_chrom = topLeft.chr;
-    if (!event_chrom) return;
-    console.assert(topLeft.chr === bottomRight.chr, "Both corners should be on the same chromosome");
+function osdRanges() {
+    const b = dziViewer.viewport.getBounds(false);
+    const tl = viewportToGenomicCoordinates(b.getTopLeft());
+    const br = viewportToGenomicCoordinates(b.getBottomRight());
+    return {
+        chr: tl.chr,
+        x0: Math.max(0, Math.floor(tl.x_bp)), x1: Math.ceil(br.x_bp),
+        y0: Math.max(0, Math.floor(tl.y_bp)), y1: Math.ceil(br.y_bp)
+    };
+}
 
-    const x_start_bp = Math.max(0, Math.floor(topLeft.x_bp));
-    const x_end_bp = Math.ceil(bottomRight.x_bp);
-    const y_start_bp = Math.max(0, Math.floor(topLeft.y_bp));
-    const y_end_bp = Math.ceil(bottomRight.y_bp);
+// Tolerance (bp) for "already in sync" — a few heatmap pixels, enough to absorb
+// rounding on the round trip but far below any genuine pan/zoom.
+function syncTol(span) { return Math.max(4, Math.round(span / 250)); }
+function locusApproxEq(cur, chr, start, end) {
+    if (!cur || cur.chr !== chr) return false;
+    const tol = syncTol(end - start);
+    return Math.abs(cur.start - start) <= tol && Math.abs(cur.end - end) <= tol;
+}
 
-    const x_region_str = `${event_chrom}:${x_start_bp}-${x_end_bp}`;
-    const y_region_str = `${event_chrom}:${y_start_bp}-${y_end_bp}`;
-    console.log(`X (hap 1) region: ${x_region_str} Y (hap 2) region: ${y_region_str}`);
+function syncIgvAxis(browser, chr, start, end) {
+    if (!browser) return;
+    if (locusApproxEq(parseLocus(browser.currentLoci()), chr, start, end)) return;
+    browser.search(`${chr}:${start}-${end}`).catch(e => console.error("igv sync search:", e));
+}
 
-    if (xRegionEl) xRegionEl.innerHTML = `X (h1): ${event_chrom}:${x_start_bp.toLocaleString()}-${x_end_bp.toLocaleString()} &nbsp; (${(x_end_bp - x_start_bp).toLocaleString()} bp)`;
-    if (yRegionEl) yRegionEl.innerHTML = `Y (h2): ${event_chrom}:${y_start_bp.toLocaleString()}-${y_end_bp.toLocaleString()} &nbsp; (${(y_end_bp - y_start_bp).toLocaleString()} bp)`;
-
-    // Drive the two IGV panels: X axis -> bottom browser, Y axis -> right (rotated) browser.
-    if (update_igv_from_dzi) {
-        if (window.igvX) {
-            window.igvX.search(x_region_str).catch(e => console.error("igvX search error:", e));
-        }
-        if (window.igvY) {
-            window.igvY.search(y_region_str).catch(e => console.error("igvY search error:", e));
-        }
-    }
-    update_igv_from_dzi = true;
+// Heatmap -> panels (runs after every OSD pan/zoom).
+dziViewer.addHandler('animation-finish', function () {
+    const r = osdRanges();
+    if (!r.chr) return;
+    if (xRegionEl) xRegionEl.innerHTML = `X (h1): ${r.chr}:${r.x0.toLocaleString()}-${r.x1.toLocaleString()} &nbsp; (${(r.x1 - r.x0).toLocaleString()} bp)`;
+    if (yRegionEl) yRegionEl.innerHTML = `Y (h2): ${r.chr}:${r.y0.toLocaleString()}-${r.y1.toLocaleString()} &nbsp; (${(r.y1 - r.y0).toLocaleString()} bp)`;
+    syncIgvAxis(window.igvX, r.chr, r.x0, r.x1);
+    syncIgvAxis(window.igvY, r.chr, r.y0, r.y1);
 });
+
+// Panels -> heatmap (runs on either browser's locuschange). Coalesced to one
+// call per frame so a drag doesn't restart the OSD animation every event; the
+// idempotent check makes the post-gesture echo a no-op.
+let igvSyncQueued = false;
+function igvToOsd() {
+    if (igvSyncQueued) return;
+    igvSyncQueued = true;
+    requestAnimationFrame(() => {
+        igvSyncQueued = false;
+        const x = parseLocus(window.igvX && window.igvX.currentLoci());
+        const y = parseLocus(window.igvY && window.igvY.currentLoci());
+        if (!x || !y || x.chr !== y.chr) return;
+        const r = osdRanges();
+        if (r.chr === x.chr &&
+            locusApproxEq({ chr: r.chr, start: r.x0, end: r.x1 }, x.chr, x.start, x.end) &&
+            locusApproxEq({ chr: r.chr, start: r.y0, end: r.y1 }, x.chr, y.start, y.end)) return;
+        fitImageRect(x.chr, x.start, y.start,
+            Math.max(1, x.end - x.start), Math.max(1, y.end - y.start), false);
+    });
+}
 
 // Draw colorbar
 function drawColorbar(canvas, colormap) {
@@ -231,7 +262,18 @@ import igv from "https://cdn.jsdelivr.net/npm/igv@3.8.1/dist/igv.esm.min.js"
 
 //import igv from "/js/index.js"
 const options = {
-    "genome": "hs1",
+   "genome": {
+        "id": "hs1",
+        "name": "Human (T2T CHM13-v2.0/hs1)",
+        "twoBitURL": "https://hgdownload3.gi.ucsc.edu/goldenPath/hs1/bigZips/hs1.2bit",
+        "twoBitBptURL": "https://hgdownload3.gi.ucsc.edu/goldenPath/hs1/bigZips/hs1.2bit.bpt",
+        "wholeGenomeView": true,
+        "cytobandBbURL": "https://hgdownload3.gi.ucsc.edu/gbdb/hs1/cytoBandMapped/cytoBandMapped.bb",
+        "blatDB": "hub_3671779_hs1",
+        "aliasURL": "https://hgdownload3.gi.ucsc.edu/goldenPath/hs1/bigZips/hs1.chromAlias.txt",
+        "chromosomeOrder": "chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9,chr10,chr11,chr12,chr13,chr14,chr15,chr16,chr17,chr18,chr19,chr20,chr21,chr22,chrX,chrY",
+        "chromSizesURL": "https://hgdownload3.gi.ucsc.edu/goldenPath/hs1/bigZips/hs1.chrom.sizes.txt"
+    },
     "locus": "chr1:37855330-37870331",
     "tracks": [
 
@@ -381,7 +423,6 @@ function genomicToViewportRectangle(chrom, x_bp, y_bp, x_width, y_width) {
 }
 function fitImageRect(imgChr, imgX, imgY, widthPx, heightPx, immediately = false) {
     const vpRect = new OpenSeadragon.Rect(imgX, imgY, widthPx, heightPx);
-    update_igv_from_dzi = false;
     if (dziViewer._cur_chrom != imgChr) {
         pending_fit_rect = vpRect;
         maybeLoadImagesForChrom(imgChr);
@@ -414,6 +455,7 @@ function layoutRotatedY() {
     igvDivY.style.transform = transform;
     igvYCell.style.width = cellW + 'px';
     igvYCell.style.height = cellH + 'px';
+    yRotated = true;
 }
 
 // The genomic data area of an igv browser (its widest track viewport), reached
@@ -445,20 +487,25 @@ function alignViews() {
     if (dziViewer && dziViewer.forceRedraw) dziViewer.forceRedraw();
 }
 
-// ---- Pointer shim for the rotated Y panel ------------------------------------
-// igv computes pointer positions as (clientX - rect.left)/rect.width, which is
-// wrong under a 90deg rotation (the genomic axis is now vertical). While an event
-// is handled over the Y panel we remap its coordinates AND make
-// getBoundingClientRect report un-rotated rects for Y-panel shadow nodes, so igv
-// recovers correct genomic positions. The two corrections are needed together.
-let yShimActive = false;
+// ---- Pointer + layout shim for the rotated Y panel ---------------------------
+// Two problems stem from the 90deg CSS rotation, both because code reads
+// element.getBoundingClientRect() (which returns the ROTATED box):
+//   1. igv lays the browser out from columnContainer.getBoundingClientRect().width
+//      -> on every re-render it would read the rotated width (the track-stack
+//      height) and shrink the data viewport.
+//   2. igv maps pointer events as (clientX - rect.left)/rect.width -> wrong axis.
+// Fix: once rotated, ALWAYS report the un-rotated rect for Y-panel shadow nodes
+// (fixes layout AND event hit-testing), and additionally remap the pointer
+// coordinates while an event is over the Y panel (fixes the axis swap). Our own
+// measurements use ORIG_GBCR so they still see the true on-screen rotated rects.
+let yRotated = false;
 function yPanelGeom() {
     const cell = ORIG_GBCR.call(igvYCell);
     return { origin: { x: cell.left, y: cell.top }, W: igvDivY.offsetWidth, H: igvDivY.offsetHeight };
 }
 Element.prototype.getBoundingClientRect = function () {
     const r = ORIG_GBCR.call(this);
-    if (yShimActive && igvDivY.shadowRoot && this.getRootNode &&
+    if (yRotated && igvDivY.shadowRoot && this.getRootNode &&
         this.getRootNode() === igvDivY.shadowRoot) {
         const g = yPanelGeom();
         return unrotateRect(r, g.origin, g.W, g.H);
@@ -486,11 +533,9 @@ function installYShim() {
             for (const k in patch) {
                 try { Object.defineProperty(e, k, { configurable: true, get: () => patch[k] }); } catch (_) { /* read-only */ }
             }
-            yShimActive = true;
         }, true);
-        // bubble phase (runs after igv's handlers): restore
+        // bubble phase (runs after igv's handlers): clear drag state
         window.addEventListener(t, () => {
-            yShimActive = false;
             if (t === 'mouseup' || t === 'pointerup') dragging = false;
         }, false);
     }
@@ -517,6 +562,17 @@ function pushIgvToOsd() {
         Math.max(1, y.end - y.start), false);
 }
 
+// Copy the X panel's current locus onto the Y panel (the auto-sync then reframes
+// the heatmap to the resulting diagonal region).
+function copyXLocusToY() {
+    const x = parseLocus(window.igvX && window.igvX.currentLoci());
+    if (!x) {
+        console.warn("Copy X→Y: could not read X locus", window.igvX && window.igvX.currentLoci());
+        return;
+    }
+    window.igvY.search(`${x.chr}:${x.start}-${x.end}`).catch(e => console.error("Copy X→Y:", e));
+}
+
 Promise.all([
     igv.createBrowser(igvDivX, optionsX),
     igv.createBrowser(igvDivY, optionsY)
@@ -536,7 +592,13 @@ Promise.all([
         ro.observe(igvDivY);
         window.addEventListener('resize', alignViews);
 
+        // Live panels -> heatmap sync (heatmap -> panels is the animation-finish
+        // handler above). Both directions are idempotent, so they can't loop.
+        browserX.on('locuschange', igvToOsd);
+        browserY.on('locuschange', igvToOsd);
+
         document.getElementById('setPairButton').addEventListener('click', pushIgvToOsd);
+        document.getElementById('copyXtoYButton').addEventListener('click', copyXLocusToY);
         document.getElementById('reset2dButton')
             .addEventListener('click', () => { dziViewer.world.resetItems(); dziViewer.world.draw(); });
 
