@@ -35,6 +35,14 @@ Below are examples and a quickstart guide.  See the [developer documentation](ht
  
 # Quickstart
 
+
+## Deployment on Taipale/Allas environment:
+
+```
+rclone copy  --filter-from filters.txt -P --verbose  . s3allas:251114_deepfiber/web/
+```
+
+
 ## Installation
 igv.js consists of a single javascript file with no external dependencies.  
 
@@ -58,6 +66,9 @@ Alternatively you can install with npm
  ```npm install igv```
 
 and source the appropriate file for your module system (igv.min.js or igv.esm.min.js)  in node_modules/igv/dist.
+
+
+
 
 
 ## Usage

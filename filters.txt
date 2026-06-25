@@ -1,0 +1,4 @@
+- node_modules/**
++ gp5d_1kx_view.html
++ js/*
+- **
