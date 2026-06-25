@@ -1,4 +1,7 @@
 import { parseLocus, rotatedYTransform, unrotateRect, unrotatePoint } from "./gp5d_geom.js";
+import {
+    CMAP_CENTER0, CMAP_HALF0, cmapIndexForValue, rhoFromCmapIndex, computeCmapParams,
+} from "./gp5d_colormap.js";
 
 const h1red = "rgb(255, 41, 135)";
 const h2blue = "rgb(40, 118, 255)";
@@ -67,14 +70,128 @@ function nearestColorIndex(color) {
     }
     return min_i;
 }
-if (true) {
-    dziViewer.setFilterOptions({
-        filters: {
-            processors: OpenSeadragon.Filters.COLORMAP(cmap, 127)
-        }
-    });
+// ---- Adjustable color mapping --------------------------------------------
+// The colormap filter turns each grayscale source pixel value v into a color.
+// Two tick options (see js/gp5d_colormap.js for the maths) let the user recenter
+// white on the data median and/or rescale the color range to the visible
+// |max|. We keep a running histogram of the raw values seen while filtering,
+// snapshot it once a render settles, and recompute center/half from it.
+const colorOpts = { whiteAtMedian: false, scaleToAbsMax: false };
+let cmapParams = { center: CMAP_CENTER0, half: CMAP_HALF0 };
+let displayLut = cmap.slice();                 // raw value (0-255) -> [r,g,b]
+const cmapHist = new Float64Array(256);        // accumulates the current render
+const cmapHistLast = new Float64Array(256);    // last settled render (for stats)
+let cmapFinalizeTimer = null;
 
+function rebuildDisplayLut() {
+    const identity = cmapParams.center === CMAP_CENTER0 && cmapParams.half === CMAP_HALF0;
+    for (let v = 0; v < 256; v++) {
+        displayLut[v] = identity ? cmap[v]
+            : cmap[cmapIndexForValue(v, cmapParams.center, cmapParams.half)];
+    }
 }
+
+function updateColorbarLabels() {
+    const set = (id, idx) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = rhoFromCmapIndex(idx, cmapParams.center, cmapParams.half).toFixed(2);
+    };
+    set('cbar-min', 0);
+    set('cbar-mid', 128);
+    set('cbar-max', 255);
+}
+
+// Draw the distribution of the visible region's correlation values. The raw
+// values are re-binned into colorbar/display-index space so the bars line up
+// with the colorbar and its rho labels, and each bar is tinted with the color
+// shown at that column. A log scale keeps the dominant near-zero bins from
+// flattening the rest.
+function drawHistogram() {
+    const canvas = document.getElementById('histogram');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const disp = new Float64Array(256);
+    let total = 0;
+    for (let v = 0; v < 256; v++) {
+        const n = cmapHistLast[v];
+        if (!n) continue;
+        total += n;
+        disp[cmapIndexForValue(v, cmapParams.center, cmapParams.half)] += n;
+    }
+    if (total === 0) return;
+
+    let maxN = 0;
+    for (let i = 0; i < 256; i++) if (disp[i] > maxN) maxN = disp[i];
+    const denom = Math.log1p(maxN);
+
+    for (let i = 0; i < 256; i++) {
+        if (!disp[i]) continue;
+        const h = denom > 0 ? Math.round(Math.log1p(disp[i]) / denom * (H - 1)) : 0;
+        const c = cmap[i];
+        ctx.fillStyle = `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+        ctx.fillRect(i, H - h, 1, h);
+    }
+}
+
+// Re-run the filter with the current displayLut. setFilterOptions bumps the
+// plugin's filterIncrement, which is what makes it re-filter the cached tiles;
+// a plain forceRedraw would keep the previously filtered pixels.
+const cmapProcessor = function (context, callback) {
+    const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
+    const pxl = imgData.data;
+    const lut = displayLut;
+    for (let i = 0; i < pxl.length; i += 4) {
+        const v = (pxl[i] + pxl[i + 1] + pxl[i + 2]) / 3 | 0;
+        cmapHist[v]++;
+        const c = lut[v];
+        pxl[i] = c[0];
+        pxl[i + 1] = c[1];
+        pxl[i + 2] = c[2];
+    }
+    context.putImageData(imgData, 0, 0);
+    scheduleCmapFinalize();
+    callback();
+};
+const cmapFilterOptions = { loadMode: 'sync', filters: { processors: cmapProcessor } };
+function reapplyColorMap() { dziViewer.setFilterOptions(cmapFilterOptions); }
+
+// Recompute center/half from the last settled histogram; re-filter if the
+// params changed (or a tick toggle forces it).
+function applyColorOptions(force) {
+    const next = computeCmapParams(cmapHistLast, colorOpts);
+    const changed = next.center !== cmapParams.center || next.half !== cmapParams.half;
+    cmapParams = next;
+    if (changed || force) {
+        rebuildDisplayLut();
+        updateColorbarLabels();
+        drawHistogram();
+        reapplyColorMap();
+    }
+}
+
+// Called (debounced) when a render's filtering settles: snapshot the histogram
+// and, if an autoscaling option is on, recompute the mapping for this view.
+function finalizeCmapPass() {
+    cmapFinalizeTimer = null;
+    let any = false;
+    for (let v = 0; v < 256; v++) if (cmapHist[v]) { any = true; break; }
+    if (any) { cmapHistLast.set(cmapHist); cmapHist.fill(0); }
+    drawHistogram();
+    if (colorOpts.whiteAtMedian || colorOpts.scaleToAbsMax) applyColorOptions(false);
+}
+
+function scheduleCmapFinalize() {
+    if (cmapFinalizeTimer) clearTimeout(cmapFinalizeTimer);
+    cmapFinalizeTimer = setTimeout(finalizeCmapPass, 120);
+}
+
+rebuildDisplayLut();
+reapplyColorMap();
+updateColorbarLabels();
+drawHistogram();
 
 
 function fitRegion(xstart, xend, ystart, yend) {
@@ -162,7 +279,7 @@ dziViewer.addHandler('canvas-click', function (event) {
 
 
     let color_i = nearestColorIndex(color);
-    let rho = color_i / (cmap.length - 1) * 2 - 1.0;
+    let rho = rhoFromCmapIndex(color_i, cmapParams.center, cmapParams.half);
     if (genomic_chr === "") {
         clickEl.innerHTML = "Click inside the heatmap to read a correlation value";
     } else {
@@ -272,7 +389,24 @@ const options = {
         "blatDB": "hub_3671779_hs1",
         "aliasURL": "https://hgdownload3.gi.ucsc.edu/goldenPath/hs1/bigZips/hs1.chromAlias.txt",
         "chromosomeOrder": "chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9,chr10,chr11,chr12,chr13,chr14,chr15,chr16,chr17,chr18,chr19,chr20,chr21,chr22,chrX,chrY",
-        "chromSizesURL": "https://hgdownload3.gi.ucsc.edu/goldenPath/hs1/bigZips/hs1.chrom.sizes.txt"
+        "chromSizesURL": "https://hgdownload3.gi.ucsc.edu/goldenPath/hs1/bigZips/hs1.chrom.sizes.txt",
+tracks: [
+{
+id: "ncbiRefSeqAll",
+name: "RefSeq All",
+url: "https://hgdownload.soe.ucsc.edu/gbdb/hs1/ncbiRefSeq/ncbiRefSeq.bb",
+trixURL: "https://hgdownload.soe.ucsc.edu/gbdb/hs1/ncbiRefSeq/ncbiRefSeq.ix",
+format: "biggenepred",
+displayMode: "EXPANDED",
+searchIndex: "name",
+html: "https://genome.ucsc.edu/cgi-bin/hgTrackUi?db=hs1&g=refSeqComposite",
+labelField: "geneName2",
+order: 0,
+altColor: "rgb(120,12,12)",
+color: "rgb(12,12,120)",
+visibilityWindow: -1
+}
+],
     },
     "locus": "chr1:37855330-37870331",
     "tracks": [
@@ -601,6 +735,17 @@ Promise.all([
         document.getElementById('copyXtoYButton').addEventListener('click', copyXLocusToY);
         document.getElementById('reset2dButton')
             .addEventListener('click', () => { dziViewer.world.resetItems(); dziViewer.world.draw(); });
+
+        const whiteAtMedianChk = document.getElementById('whiteAtMedianChk');
+        const absMaxScaleChk = document.getElementById('absMaxScaleChk');
+        if (whiteAtMedianChk) whiteAtMedianChk.addEventListener('change', () => {
+            colorOpts.whiteAtMedian = whiteAtMedianChk.checked;
+            applyColorOptions(true);
+        });
+        if (absMaxScaleChk) absMaxScaleChk.addEventListener('change', () => {
+            colorOpts.scaleToAbsMax = absMaxScaleChk.checked;
+            applyColorOptions(true);
+        });
 
         // Initial framing: drive the heatmap from the starting loci.
         pushIgvToOsd();

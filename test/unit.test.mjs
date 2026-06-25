@@ -106,3 +106,90 @@ describe('rotation shim self-consistency', () => {
         }
     });
 });
+
+import {
+    CMAP_CENTER0, CMAP_HALF0, cmapIndexForValue, valueForCmapIndex,
+    rhoFromValue, rhoFromCmapIndex, medianFromHist, absMaxFromHist, computeCmapParams,
+} from '../js/gp5d_colormap.js';
+
+describe('colormap maths', () => {
+    it('identity defaults map index === value and rho spans [-1,1]', () => {
+        for (const v of [0, 1, 64, 128, 200, 255]) {
+            assert.equal(cmapIndexForValue(v), v);
+        }
+        assert.equal(rhoFromValue(0), -1);
+        assert.equal(rhoFromValue(255), 1);
+        // Default colorbar ends read ~ -1, ~0, ~1.
+        assert.equal(rhoFromCmapIndex(0).toFixed(2), '-1.00');
+        assert.equal(rhoFromCmapIndex(128).toFixed(2), '0.00');
+        assert.equal(rhoFromCmapIndex(255).toFixed(2), '1.00');
+    });
+
+    it('cmapIndexForValue clamps to [0,255]', () => {
+        assert.equal(cmapIndexForValue(255, 0, 10), 255);
+        assert.equal(cmapIndexForValue(0, 255, 10), 0);
+    });
+
+    it('valueForCmapIndex inverts cmapIndexForValue at the center', () => {
+        assert.equal(valueForCmapIndex(128, 90, 40), 90);
+        assert.equal(valueForCmapIndex(0, 90, 40), 50);
+        assert.equal(valueForCmapIndex(255, 90, 40), 90 + 127 * 40 / 128);
+    });
+
+    it('medianFromHist finds the median bin, null when empty', () => {
+        const h = new Float64Array(256);
+        assert.equal(medianFromHist(h), null);
+        h[10] = 1; h[20] = 1; h[30] = 1;          // median bin is 20
+        assert.equal(medianFromHist(h), 20);
+        h.fill(0); h[200] = 5;                     // single populated bin
+        assert.equal(medianFromHist(h), 200);
+    });
+
+    it('absMaxFromHist is the largest |bin - center|, null when empty', () => {
+        const h = new Float64Array(256);
+        assert.equal(absMaxFromHist(h, 128), null);
+        h[100] = 1; h[150] = 1;                    // |100-128|=28, |150-128|=22
+        assert.equal(absMaxFromHist(h, 128), 28);
+    });
+
+    it('computeCmapParams: both options off -> identity defaults', () => {
+        const h = new Float64Array(256);
+        h[40] = 1; h[60] = 1;
+        assert.deepEqual(computeCmapParams(h, {}), { center: CMAP_CENTER0, half: CMAP_HALF0 });
+    });
+
+    it('computeCmapParams: whiteAtMedian recenters on the median', () => {
+        const h = new Float64Array(256);
+        h[40] = 1; h[60] = 1; h[80] = 1;           // median 60
+        assert.deepEqual(computeCmapParams(h, { whiteAtMedian: true }),
+            { center: 60, half: CMAP_HALF0 });
+    });
+
+    it('computeCmapParams: scaleToAbsMax sets half to the max deviation', () => {
+        const h = new Float64Array(256);
+        h[118] = 1; h[148] = 1;                    // around default center 128: max dev 20
+        assert.deepEqual(computeCmapParams(h, { scaleToAbsMax: true }),
+            { center: CMAP_CENTER0, half: 20 });
+    });
+
+    it('computeCmapParams: both options use the median as the absmax center', () => {
+        const h = new Float64Array(256);
+        h[40] = 1; h[60] = 1; h[100] = 1;          // median 60, max dev from 60 is 40
+        assert.deepEqual(computeCmapParams(h, { whiteAtMedian: true, scaleToAbsMax: true }),
+            { center: 60, half: 40 });
+    });
+
+    it('computeCmapParams: empty histogram falls back to defaults', () => {
+        const h = new Float64Array(256);
+        assert.deepEqual(computeCmapParams(h, { whiteAtMedian: true, scaleToAbsMax: true }),
+            { center: CMAP_CENTER0, half: CMAP_HALF0 });
+    });
+
+    it('scaleToAbsMax pushes the extreme visible value to a colorbar end', () => {
+        const h = new Float64Array(256);
+        h[148] = 1; h[108] = 1;                    // max dev 20 from center 128
+        const { center, half } = computeCmapParams(h, { scaleToAbsMax: true });
+        assert.equal(cmapIndexForValue(148, center, half), 255);
+        assert.equal(cmapIndexForValue(108, center, half), 0);
+    });
+});

@@ -76,6 +76,35 @@
             display: block;
         }
 
+        #histogram {
+            display: block;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            background-color: #fafafa;
+        }
+
+        .axis-label {
+            width: 256px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #333;
+            margin-top: 2px;
+        }
+
+        .cmap-options {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-top: 6px;
+            font-size: 12px;
+        }
+
+        .cmap-options label {
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
         .labels {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -274,11 +303,23 @@
             <div id="y-region" style="color: rgb(40, 118, 255)">Y (h2)</div>
             <div id="click-position">Click the heatmap to read a correlation value</div>
             <div class="colorbar-container" style="margin-top: 8px;">
+                <!-- Distribution of correlation values in the visible region,
+                     drawn in the same x-axis (and width) as the colorbar below. -->
+                <canvas id="histogram" width="256" height="60" title="Distribution of correlation values in the visible region"></canvas>
                 <canvas id="colorbar" width="256" height="20"></canvas>
                 <div class="labels">
-                    <span>-1</span>
-                    <span>0</span>
-                    <span>1</span>
+                    <span id="cbar-min">-1</span>
+                    <span id="cbar-mid">0</span>
+                    <span id="cbar-max">1</span>
+                </div>
+                <div class="axis-label">correlation coefficient &rho;</div>
+                <div class="cmap-options">
+                    <label title="Center white on the median of the visible values instead of on &rho;=0">
+                        <input type="checkbox" id="whiteAtMedianChk"> White at median
+                    </label>
+                    <label title="Stretch the color scale so the largest visible |value - center| reaches the colorbar ends">
+                        <input type="checkbox" id="absMaxScaleChk"> Scale to &plusmn;|max|
+                    </label>
                 </div>
             </div>
         </div>
